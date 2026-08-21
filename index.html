@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#101010">
-<title>JA Painting Pro</title>
+<title>JA Painting Pro V2.8 FINAL COMPACT</title>
 
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -31,9 +31,9 @@ button{cursor:pointer}
 .tabs{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #2b2b2b}
 .tab{border:0;background:#151515;color:#eee;font-weight:800;padding:17px 7px;font-size:15px;border-bottom:4px solid transparent}
 .tab.active{background:#222;border-bottom-color:var(--gold)}
-main{max-width:760px;margin:0 auto;padding:18px}
+main{max-width:1180px;margin:0 auto;padding:18px 22px}
 .view{display:none} .view.active{display:block}
-.heroActions{display:grid;gap:12px;margin-bottom:18px}
+.heroActions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
 .bigBtn{border:0;border-radius:16px;padding:18px;font-weight:900;font-size:20px}
 .btnLight{background:#eeeae0;color:#222} .btnGold{background:var(--gold);color:#171717}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:18px;box-shadow:var(--shadow)}
@@ -92,6 +92,441 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
  .row3{grid-template-columns:1fr} .checkgrid{grid-template-columns:1fr 1fr}
  .tab{font-size:14px;padding:16px 4px} .bottom strong{font-size:27px}
 }
+
+.roomActionsTop{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.roomActionBtns{display:flex;gap:9px;flex-wrap:wrap}
+.roomActionBtns .bigBtn{padding:12px 15px;font-size:16px}
+.workSection{border:1px solid #e4dece;border-radius:16px;padding:14px;margin-top:14px;background:#fffdf7}
+.workSection h4{margin:0 0 10px;font-size:18px}
+.ceilingControls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.specialRoom{border-left:6px solid var(--gold)}
+.specialGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.specialGrid .chk{min-height:58px}
+.modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.58);display:flex;align-items:flex-start;justify-content:center;padding:24px 12px;overflow:auto}
+.modal.hidden{display:none}
+.modalPanel{width:min(760px,100%);background:var(--paper);border-radius:22px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.modalHead{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}
+.detailCard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0}
+.detailGrid{display:grid;grid-template-columns:1fr auto;gap:8px 14px}
+.detailGrid b{text-align:right}
+.detailActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.detailActions .bigBtn{font-size:16px;padding:14px}
+@media(max-width:600px){
+  .detailActions{grid-template-columns:1fr}
+  .ceilingControls,.specialGrid{grid-template-columns:1fr}
+}
+
+
+/* ===== JA Painting Pro V2.1 – compact desktop/tablet layout ===== */
+@media (min-width: 900px){
+  .logoWrap{height:138px;padding:8px 16px}
+  .logoWrap img{max-height:124px;max-width:250px}
+  .tabs{max-width:none}
+  .tab{padding:13px 8px;font-size:14px}
+
+  .heroActions{
+    max-width:760px;
+    margin:0 auto 16px;
+  }
+  .bigBtn{
+    padding:14px 16px;
+    font-size:17px;
+  }
+
+  #calc>.card:first-of-type{
+    max-width:1180px;
+  }
+
+  .standardRoom .roomBody{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:18px 22px;
+    align-items:start;
+  }
+
+  .standardRoom .mode,
+  .standardRoom .summaryMini,
+  .standardRoom .prepHead,
+  .standardRoom .prepBox,
+  .standardRoom .openings{
+    grid-column:1 / -1;
+  }
+
+  .standardRoom .mode{margin-bottom:0}
+
+  .standardRoom .dimFields,
+  .standardRoom .directFields{
+    grid-column:1;
+    grid-row:auto;
+  }
+
+  .standardRoom .workSection:first-of-type{
+    grid-column:2;
+  }
+
+  .standardRoom .workSection:nth-of-type(2){
+    grid-column:2;
+  }
+
+  .standardRoom .checkgrid{
+    grid-column:2;
+    grid-template-columns:1fr 1fr;
+    margin-top:0;
+  }
+
+  .standardRoom .workSection:nth-of-type(3){
+    grid-column:2;
+  }
+
+  .standardRoom> .roomBody > label,
+  .standardRoom> .roomBody > select,
+  .standardRoom> .roomBody > input{
+    grid-column:1;
+  }
+
+  .standardRoom .rname,
+  .standardRoom .rtype{
+    grid-column:1;
+  }
+
+  .standardRoom .summaryMini{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px 18px;
+    align-items:center;
+    padding:13px 16px;
+  }
+
+  .specialRoom .roomBody{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:14px 22px;
+    align-items:start;
+  }
+  .specialRoom .specialGrid,
+  .specialRoom .summaryMini{
+    grid-column:1 / -1;
+  }
+  .specialRoom .workSection{
+    grid-column:2;
+  }
+
+  .roomHead{padding:13px 16px}
+  .roomHead strong{font-size:20px}
+  .roomBody{padding:16px}
+  .card{padding:18px}
+  .card h2{font-size:24px;margin-bottom:14px}
+  label{font-size:14px;margin:10px 0 5px}
+  input,select,textarea{padding:12px 13px;font-size:16px;border-radius:12px}
+
+  .chk{
+    padding:10px 11px;
+    min-height:50px;
+    font-size:14px;
+    gap:8px;
+  }
+  .chk input{width:20px;height:20px}
+
+  .workSection{
+    padding:12px;
+    margin-top:0;
+  }
+  .workSection h4{font-size:16px}
+  .summaryMini{font-size:15px}
+  .subcard{padding:12px}
+
+  .roomActionsTop{
+    align-items:center;
+  }
+  .roomActionBtns .bigBtn{
+    padding:10px 13px;
+    font-size:15px;
+  }
+
+  .savedCard{padding:14px}
+  .savedTop strong{font-size:19px}
+  .savedPrice{font-size:22px}
+}
+
+@media (max-width: 899px){
+  main{max-width:760px;padding:16px}
+  .heroActions{grid-template-columns:1fr}
+}
+
+@media (min-width: 1200px){
+  .card#noop{}
+  .standardRoom .roomBody{
+    grid-template-columns:minmax(0,0.95fr) minmax(0,1.05fr);
+  }
+}
+
+
+@media (min-width: 900px){
+  #calc > .card:nth-of-type(1){
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:18px;
+    row-gap:0;
+  }
+  #calc > .card:nth-of-type(1) h2{
+    grid-column:1 / -1;
+  }
+  #calc > .card:nth-of-type(1) .discountPills{
+    grid-column:1 / -1;
+  }
+  #calc > .card:nth-of-type(1) .chk{
+    align-self:end;
+  }
+}
+
+
+/* ===== V2.2 CLEAN ROOM CARD ===== */
+.standardRoom .compactRoomBody{
+  display:block !important;
+  padding:14px !important;
+}
+.standardRoom .roomMainGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:10px;
+}
+.standardRoom .roomPanel{
+  border:1px solid #ded8c9;
+  border-radius:14px;
+  background:#fff;
+  padding:12px;
+  min-width:0;
+}
+.standardRoom .roomPanel h4{
+  margin:0 0 10px;
+  font-size:16px;
+  color:#222;
+}
+.standardRoom .fieldGrid{
+  display:grid;
+  gap:8px;
+}
+.standardRoom .fieldGrid.two{grid-template-columns:1fr 1fr}
+.standardRoom .fieldGrid.three{grid-template-columns:repeat(3,1fr)}
+.standardRoom .fieldGrid.four{grid-template-columns:repeat(4,1fr)}
+.standardRoom .fieldGrid label,
+.standardRoom .roomPanel label{
+  margin:6px 0 4px;
+  font-size:12px;
+}
+.standardRoom .fieldGrid input,
+.standardRoom .fieldGrid select,
+.standardRoom .roomPanel > input,
+.standardRoom .roomPanel > select{
+  padding:9px 10px;
+  font-size:14px;
+  border-radius:10px;
+}
+.standardRoom .paintBlock{
+  border:1px solid #ece7db;
+  background:#faf8f3;
+  border-radius:12px;
+  padding:9px;
+  margin-bottom:8px;
+}
+.standardRoom .paintTitle{
+  font-size:14px;
+  font-weight:900;
+}
+.standardRoom .paintTitleRow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.standardRoom .miniToggle{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-weight:800;
+  margin:0 !important;
+  font-size:12px !important;
+}
+.standardRoom .miniToggle input{
+  width:18px;height:18px;
+}
+.standardRoom .workChecks,
+.standardRoom .miniChecks{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-top:8px;
+}
+.standardRoom .workChecks .chk,
+.standardRoom .miniChecks .chk{
+  min-height:40px;
+  padding:8px 9px;
+  font-size:12px;
+  border-radius:10px;
+}
+.standardRoom .workChecks .chk input,
+.standardRoom .miniChecks .chk input{
+  width:18px;height:18px;
+}
+.standardRoom .acrylicLine{
+  display:grid;
+  grid-template-columns:1fr 120px;
+  gap:8px;
+  align-items:end;
+  margin-top:8px;
+}
+.standardRoom .acrylicLine input{
+  padding:9px 10px;
+  font-size:14px;
+}
+.standardRoom .mode{
+  grid-column:auto !important;
+  margin:0 !important;
+}
+.standardRoom .mode button{
+  padding:11px 10px;
+  font-size:14px;
+}
+.standardRoom .prepHead{
+  display:flex !important;
+  justify-content:space-between;
+  align-items:center;
+  margin:12px 0 0 !important;
+  padding:9px 2px 0;
+  border-top:1px solid #ece8dd;
+}
+.standardRoom .prepHead h3{font-size:16px}
+.standardRoom .prepToggle{
+  padding:7px 10px;
+  font-size:12px;
+}
+.standardRoom .prepBox{
+  grid-column:auto !important;
+}
+.standardRoom .openings{
+  grid-column:auto !important;
+  margin-top:8px;
+}
+.standardRoom .compactSummary{
+  display:grid !important;
+  grid-template-columns:repeat(3,1fr) !important;
+  gap:8px !important;
+  padding:10px 12px !important;
+  margin-top:10px !important;
+}
+.standardRoom .compactSummary > div{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  border-right:1px solid #e6e0d5;
+  padding-right:8px;
+}
+.standardRoom .compactSummary > div:nth-child(3n){
+  border-right:0;
+}
+.standardRoom .compactSummary span{
+  color:#6d6a64;
+  font-size:12px;
+}
+.standardRoom .compactSummary b{
+  font-size:13px;
+}
+.standardRoom .compactSummary .roomTotal b{
+  color:var(--green);
+  font-size:15px;
+}
+.standardRoom .subcard{
+  padding:9px;
+}
+.standardRoom .subcard h4{
+  margin-bottom:6px;
+}
+.standardRoom .miniNote{
+  font-size:11px;
+}
+
+@media (max-width: 850px){
+  .standardRoom .roomMainGrid{grid-template-columns:1fr}
+  .standardRoom .fieldGrid.three{grid-template-columns:repeat(3,1fr)}
+.standardRoom .fieldGrid.four{grid-template-columns:repeat(4,1fr)}
+  .standardRoom .compactSummary{grid-template-columns:1fr 1fr !important}
+  .standardRoom .compactSummary > div,
+  .standardRoom .compactSummary > div:nth-child(3n){
+    border-right:0;
+  }
+}
+@media (max-width: 520px){
+  .standardRoom .fieldGrid.two,
+  .standardRoom .fieldGrid.three,
+  .standardRoom .fieldGrid.four,
+  .standardRoom .workChecks,
+  .standardRoom .miniChecks{
+    grid-template-columns:1fr;
+  }
+  .standardRoom .acrylicLine{grid-template-columns:1fr}
+  .standardRoom .compactSummary{grid-template-columns:1fr !important}
+}
+
+
+/* ===== V2.4 FIELD DOCUMENTATION ===== */
+.docSection{
+  margin-top:12px;padding:12px;border:1px solid #ded8c9;border-radius:14px;background:#fbfaf6;
+}
+.docHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.timeGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.timeGrid label{font-size:11px;margin:4px 0}
+.timeGrid input{padding:9px 8px;font-size:13px}
+.docSection textarea{width:100%;resize:vertical;min-height:68px}
+.docBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.smallAction{
+  border:1px solid #d9d1bd;background:#fff7df;color:#222;border-radius:10px;
+  padding:9px 11px;font-weight:800;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px
+}
+.photoLabel input{display:none}
+.photoPreviewWrap{margin-top:10px}
+.photoPreview{width:100%;max-height:260px;object-fit:cover;border-radius:12px;border:1px solid #ddd}
+.marketNotice{margin-bottom:10px}
+.detailPhoto{width:100%;max-height:300px;object-fit:cover;border-radius:12px;margin-top:10px;border:1px solid #ddd}
+.voiceActive{background:#ffe0dc!important;border-color:#eaa59c!important}
+@media(max-width:700px){.timeGrid{grid-template-columns:1fr 1fr}}
+
+
+/* ===== V2.7 FINAL OFFER ===== */
+.offerTerms{margin:14px 0;padding:13px;border:1px solid #ded8c9;border-radius:14px;background:#fbfaf6}
+.offerTerms h3{margin:0 0 10px}
+.muted{font-weight:400;color:#888;font-size:11px}
+
+
+/* ===== V2.8 FINAL COMPACT UX ===== */
+.jobCompactCard{padding:14px!important}
+.jobCompactCard h2{margin:0 0 10px!important}
+.jobGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
+.jobGrid>div{min-width:0}
+.jobGrid label{font-size:11px;margin:2px 0 4px}
+.jobGrid input,.jobGrid select{padding:9px 10px;font-size:14px;border-radius:10px}
+.jobGrid .fullRow{grid-column:1/-1}
+.quickDiscountRow{margin-top:2px}
+.quickDiscountRow .discountPills{gap:6px}
+.quickDiscountRow .discountPills button{padding:9px 6px;font-size:12px}
+.compactTerms{margin-top:10px!important;padding:10px!important}
+.compactSectionTitle{font-weight:900;font-size:15px;margin-bottom:8px}
+.compactReserve{margin-top:9px!important;min-height:40px!important;padding:8px 10px!important;font-size:12px!important}
+.compactReserveNote{font-size:10px;line-height:1.25;margin-top:4px}
+@media(max-width:520px){
+  .jobCompactCard{padding:10px!important}
+  .jobGrid{grid-template-columns:1fr 1fr;gap:6px}
+  .jobGrid label{font-size:10px;line-height:1.1}
+  .jobGrid input,.jobGrid select{padding:8px 7px;font-size:12px;min-height:38px}
+  .quickDiscountRow .discountPills button{padding:8px 3px;font-size:11px}
+  .compactTerms{padding:8px!important}
+  .compactSectionTitle{font-size:14px}
+}
+@media(max-width:350px){
+  .jobGrid{grid-template-columns:1fr}
+  .jobGrid .fullRow{grid-column:auto}
+}
+
 </style>
 </head>
 <body>
@@ -112,39 +547,116 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
     <button class="bigBtn btnGold" id="saveJobTop">Uložiť zákazku</button>
   </div>
 
-  <div class="card">
+  <div class="card jobCompactCard">
     <h2>Zákazka</h2>
-    <label>Zákazník</label><input id="customer" placeholder="Meno zákazníka">
-    <label>Adresa</label><input id="address" placeholder="Miesto realizácie">
 
-    <label>Typ zákazníka</label>
-    <select id="customerType">
-      <option value="0">Klient – 0 %</option>
-      <option value="10">Kamarát / známy – 10 %</option>
-      <option value="15">Rodina / blízky – 15 %</option>
-      <option value="20">Rodina VIP – 20 %</option>
-    </select>
+    <div class="jobGrid">
+      <div>
+        <label>Zákazník</label>
+        <input id="customer" placeholder="Meno zákazníka">
+      </div>
+      <div>
+        <label>Adresa realizácie</label>
+        <input id="address" placeholder="Mesto / adresa">
+      </div>
 
-    <label>Rýchla zľava</label>
-    <div class="discountPills">
-      <button data-disc="0" class="active">0 %</button>
-      <button data-disc="10">10 %</button>
-      <button data-disc="15">15 %</button>
-      <button data-disc="20">20 %</button>
+      <div>
+        <label>Telefón zákazníka</label>
+        <input id="customerPhone" type="tel" placeholder="+421 ...">
+      </div>
+      <div>
+        <label>E-mail zákazníka <span class="muted">(nepovinné)</span></label>
+        <input id="customerEmail" type="email" placeholder="zakaznik@email.sk">
+      </div>
+
+      <div>
+        <label>Typ zákazníka</label>
+        <select id="customerType">
+          <option value="0">Klient – 0 %</option>
+          <option value="10">Kamarát / známy – 10 %</option>
+          <option value="15">Rodina / blízky – 15 %</option>
+          <option value="20">Rodina VIP – 20 %</option>
+        </select>
+      </div>
+      <div>
+        <label>Individuálna zľava %</label>
+        <input id="discount" type="number" min="0" max="100" step="1" value="0">
+      </div>
+
+      <div class="fullRow quickDiscountRow">
+        <label>Rýchla zľava</label>
+        <div class="discountPills">
+          <button data-disc="0" class="active">0 %</button>
+          <button data-disc="10">10 %</button>
+          <button data-disc="15">15 %</button>
+          <button data-disc="20">20 %</button>
+        </div>
+      </div>
     </div>
 
-    <label>Individuálna zľava %</label><input id="discount" type="number" min="0" max="100" step="1" value="0">
-    <label>Km tam + späť</label><input id="km" type="number" min="0" step="1" value="0">
-    <label>Stav zákazky</label>
-    <select id="status"><option>Návrh</option><option>Odoslaná ponuka</option><option>Schválená</option><option>Realizácia</option><option>Dokončená</option></select>
-    <label class="chk" style="margin-top:15px"><input id="reserve" type="checkbox" checked> Pripočítať realizačnú réžiu <span id="reserveLabel">10 %</span></label>
+    <div class="offerTerms compactTerms">
+      <div class="compactSectionTitle">Podmienky ponuky</div>
+      <div class="jobGrid">
+        <div>
+          <label>Materiál zabezpečuje</label>
+          <select id="materialBy">
+            <option value="customer">Zákazník</option>
+            <option value="provider">JA Painting</option>
+          </select>
+        </div>
+        <div id="materialCostWrap" class="hidden">
+          <label>Cena materiálu €</label>
+          <input id="materialCost" type="number" min="0" step=".01" value="0">
+        </div>
+
+        <div>
+          <label>Predpokladaný termín začatia</label>
+          <input id="startDate" type="date">
+        </div>
+        <div>
+          <label>Odhad realizácie – pracovné dni</label>
+          <input id="estimatedDays" type="number" min="0" step=".5" value="0">
+        </div>
+
+        <div>
+          <label>Platba</label>
+          <select id="paymentType">
+            <option value="after">Po dokončení a odovzdaní prác</option>
+            <option value="deposit">Záloha + doplatok</option>
+            <option value="agreement">Podľa dohody</option>
+          </select>
+        </div>
+        <div id="depositWrap" class="hidden">
+          <label>Záloha %</label>
+          <input id="depositPct" type="number" min="0" max="100" step="1" value="30">
+        </div>
+
+        <div>
+          <label>Km tam + späť</label>
+          <input id="km" type="number" min="0" step="1" value="0">
+        </div>
+        <div>
+          <label>Stav zákazky</label>
+          <select id="status">
+            <option>Návrh</option><option>Odoslaná ponuka</option><option>Schválená</option><option>Realizácia</option><option>Dokončená</option>
+          </select>
+        </div>
+      </div>
+
+      <label class="chk compactReserve"><input id="reserve" type="checkbox" checked> Príspevok na spotrebný materiál a opotrebenie <span id="reserveLabel">10 %</span></label>
+      <div class="miniNote compactReserveNote">Interná položka na valčeky, pásky, fólie, štetce a bežné opotrebenie. V PDF sa zákazníkovi nezobrazuje samostatne.</div>
+    </div>
   </div>
 
   <div class="card">
-    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
-      <h2 style="margin:0">Miestnosti</h2>
-      <button class="bigBtn btnGold" style="padding:12px 16px;font-size:17px" id="addRoom">+ Pridať</button>
+    <div class="roomActionsTop">
+      <h2 style="margin:0">Miestnosti a plochy</h2>
+      <div class="roomActionBtns">
+        <button class="bigBtn btnGold" id="addRoom">+ Miestnosť</button>
+        <button class="bigBtn btnLight" id="addSpecial">+ Krb / plocha</button>
+      </div>
     </div>
+    <div class="notice" style="margin-top:12px">Nová miestnosť alebo plocha sa vždy pridá hore, aby si pri veľkej zákazke nemusel scrollovať na spodok.</div>
     <div id="rooms"></div>
   </div>
 
@@ -157,8 +669,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
     <div class="summaryRow"><span>Spolu maľovaná plocha</span><b id="sumArea">0,00 m²</b></div>
     <div class="summaryRow"><span>Maľovanie</span><b id="sumPainting">0,00 €</b></div>
     <div class="summaryRow"><span>Príprava a ochrana</span><b id="sumPrep">0,00 €</b></div>
+    <div class="summaryRow"><span>Krb / špeciálne plochy</span><b id="sumSpecial">0,00 €</b></div>
     <div class="summaryRow"><span>Doprava</span><b id="sumTravel">0,00 €</b></div>
-    <div class="summaryRow"><span>Réžia</span><b id="sumReserve">0,00 €</b></div>
+    <div class="summaryRow"><span>Spotrebný materiál / opotrebenie</span><b id="sumReserve">0,00 €</b></div>
     <div class="summaryRow"><span>Zľava</span><b id="sumDiscount">0,00 €</b></div>
     <div class="summaryRow"><span>Konečná cena</span><b class="priceGreen" id="sumFinal">50,00 €</b></div>
   </div>
@@ -178,6 +691,13 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
     <h2>Cenník práce</h2>
     <div class="notice">Ceny sú iba za tvoju prácu. Materiál zabezpečuje zákazník.</div>
     <div id="priceFields"></div>
+    
+    <div class="notice marketNotice">
+      Odporúčaný profil = stredné orientačné ceny práce pre rok 2026, bez materiálu. 
+      Ceny sa na trhu výrazne líšia podľa regiónu, podkladu a rozsahu. Tlačidlo iba predvyplní cenník – potom si ho môžeš upraviť.
+    </div>
+    <button class="bigBtn btnLight" id="applyMarketPrices" style="margin-bottom:10px">Použiť odporúčané stredné ceny 2026</button>
+
     <button class="bigBtn btnGold" id="savePrices">Uložiť cenník</button>
   </div>
 </section>
@@ -188,7 +708,13 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
     <label>Doprava €/km</label><input id="setKm" type="number" step=".01">
     <label>Minimálna zákazka €</label><input id="setMin" type="number" step="1">
     <label>Malá zákazka + dojazd €</label><input id="setSmall" type="number" step="1">
-    <label>Realizačná réžia %</label><input id="setReserve" type="number" step="1">
+    <label>Spotrebný materiál a opotrebenie %</label><input id="setReserve" type="number" step="1">
+    <label>Platnosť cenovej ponuky (dni)</label><input id="setValidity" type="number" min="1" step="1" value="14">
+    <label>Telefón do cenovej ponuky</label><input id="setPhone" type="text" placeholder="+421 ...">
+    <label>E-mail do cenovej ponuky</label><input id="setEmail" type="email" placeholder="napr. info@...">
+    <label>Poznámka do cenovej ponuky</label>
+    <textarea id="setQuoteNote" rows="3" placeholder="Materiál zabezpečuje zákazník. Termín realizácie podľa dohody."></textarea>
+
     <button class="bigBtn btnGold" id="saveSettings">Uložiť nastavenia</button>
     <div style="height:10px"></div>
     <button class="bigBtn" style="background:#326a95;color:white" id="exportJobs">Exportovať zákazky</button>
@@ -198,6 +724,24 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
 </section>
 </main>
 
+
+<div id="jobDetailModal" class="modal hidden">
+  <div class="modalPanel">
+    <div class="modalHead">
+      <div>
+        <div class="miniNote">Detail zákazky</div>
+        <h2 id="detailTitle" style="margin:4px 0 0"></h2>
+      </div>
+      <button id="closeDetail" class="remove">Zavrieť</button>
+    </div>
+    <div id="detailBody"></div>
+    <div class="detailActions">
+      <button id="loadJobEdit" class="bigBtn btnGold">Načítať do kalkulácie</button>
+      <button id="downloadDetailPdf" class="bigBtn green">Stiahnuť cenovú ponuku PDF</button>
+    </div>
+  </div>
+</div>
+
 <footer class="bottom">
   <div><small>Konečná cena</small><strong id="bottomPrice">50,00 €</strong></div>
   <button id="saveBottom">Uložiť</button>
@@ -205,234 +749,1098 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
 
 <script>
 const DEFAULT_PRICES = {
- white1:1.50, white2:2.30, white3:3.00,
- color1:1.80, color2:2.80, color3:3.80,
- covering:0.40, penetration:0.50, repairs:0.80, putty:2.00, sanding:0.90,
- decor:8.00, ceilingExtra:0.50, stairsExtra:1.50,
- skirting:0.40, doorFrame:3.00, fullDoor:2.50, window:3.50, sill:1.50,
- lightCover:2.00, lightRemove:8.00, acCover:5.00, picture:1.50,
- tv:5.00, radiator:3.00, socket:0.60, kitchen:12.00, furniture:10.00
+  wallWhitePerCoat:3.50,
+  wallColorPerCoat:4.00,
+  ceilingWhitePerCoat:3.50,
+  ceilingColorPerCoat:4.00,
+  penetrationWall:1.00,
+  penetrationCeiling:1.00,
+  repairs:0.80,
+  putty:2.00,
+  sanding:0.90,
+  decor:8.00,
+  stairsExtra:1.50,
+  acrylicCeilingPerM:1.50,
+
+  covering:0.40,
+  skirting:0.40, doorFrame:3.00, fullDoor:2.50, window:3.50, sill:1.50,
+  lightCover:2.00, lightRemove:8.00, acCover:5.00, picture:1.50,
+  tv:5.00, radiator:3.00, socket:0.60, kitchen:12.00, furniture:10.00,
+
+  specialRepair:3.00,
+  specialSanding:2.00,
+  specialPenetration:1.00,
+  specialMeshGlue:5.00,
+  specialSkimcoat:5.00,
+  specialPutty:5.00,
+  specialPaintPerCoat:3.50,
+  specialDecor:8.00
 };
+
+
+const MARKET_PRICES_2026 = {
+  wallWhitePerCoat:1.60,
+  wallColorPerCoat:1.90,
+  ceilingWhitePerCoat:1.80,
+  ceilingColorPerCoat:2.10,
+  penetrationWall:0.70,
+  penetrationCeiling:0.70,
+  repairs:2.00,
+  putty:3.50,
+  sanding:1.10,
+  decor:12.00,
+  stairsExtra:1.50,
+  acrylicCeilingPerM:1.50,
+  covering:0.70,
+  skirting:0.50,
+  doorFrame:3.00,
+  fullDoor:3.00,
+  window:3.50,
+  sill:1.50,
+  lightCover:2.00,
+  lightRemove:8.00,
+  acCover:5.00,
+  picture:1.50,
+  tv:5.00,
+  radiator:3.00,
+  socket:0.60,
+  kitchen:12.00,
+  furniture:10.00,
+  specialRepair:3.00,
+  specialSanding:1.50,
+  specialPenetration:0.70,
+  specialMeshGlue:5.50,
+  specialSkimcoat:6.50,
+  specialPutty:4.00,
+  specialPaintPerCoat:1.80,
+  specialDecor:12.00
+};
+
 const PRICE_LABELS = {
- white1:"Biela 1 náter €/m²",white2:"Biela 2 nátery €/m²",white3:"Biela 3 nátery €/m²",
- color1:"Farebná 1 náter €/m²",color2:"Farebná 2 nátery €/m²",color3:"Farebná 3 nátery €/m²",
- covering:"Zakrývanie podlahy €/m²",penetration:"Penetrácia €/m²",repairs:"Opravy €/m²",putty:"Tmelenie €/m²",
- sanding:"Brúsenie €/m²",decor:"Dekor €/m²",ceilingExtra:"Strop príplatok €/m²",stairsExtra:"Schodisko príplatok €/m²",
- skirting:"Olepenie soklov €/bm",doorFrame:"Olepenie rámu dverí €/ks",fullDoor:"Zakrytie celých dverí €/ks",
- window:"Zakrytie okna / rámu €/ks",sill:"Zakrytie parapetu €/ks",lightCover:"Zakrytie svetla €/ks",
- lightRemove:"Odpojenie + zapojenie svetla €/ks",acCover:"Zakrytie klímy €/ks",picture:"Obraz / dekorácia €/ks",
- tv:"TV / nástenný prvok €/ks",radiator:"Radiátor €/ks",socket:"Zásuvka / vypínač €/ks",
- kitchen:"Kuchynská linka / vstavaný nábytok €",furniture:"Presun + zakrytie nábytku €"
+  wallWhitePerCoat:"Biela – steny €/m² za 1 náter",
+  wallColorPerCoat:"Farebná – steny €/m² za 1 náter",
+  ceilingWhitePerCoat:"Biela – strop €/m² za 1 náter",
+  ceilingColorPerCoat:"Farebná – strop €/m² za 1 náter",
+  penetrationWall:"Penetrácia stien €/m²",
+  penetrationCeiling:"Penetrácia stropu €/m²",
+  acrylicCeilingPerM:"Akrylovanie stropných rohov €/bm",
+  repairs:"Opravy stien €/m²",
+  putty:"Tmelenie stien €/m²",
+  sanding:"Brúsenie stien €/m²",
+  decor:"Dekor / San Marco €/m²",
+  stairsExtra:"Schodisko / náročný prístup €/m²",
+
+  covering:"Zakrývanie podlahy €/m²",
+  skirting:"Olepenie soklov €/bm",
+  doorFrame:"Olepenie rámu dverí €/ks",
+  fullDoor:"Zakrytie celých dverí €/ks",
+  window:"Zakrytie okna / rámu €/ks",
+  sill:"Zakrytie parapetu €/ks",
+  lightCover:"Zakrytie svetla €/ks",
+  lightRemove:"Odpojenie + zapojenie svetla €/ks",
+  acCover:"Zakrytie klímy €/ks",
+  picture:"Obraz / dekorácia €/ks",
+  tv:"TV / nástenný prvok €/ks",
+  radiator:"Radiátor €/ks",
+  socket:"Zásuvka / vypínač €/ks",
+  kitchen:"Kuchynská linka / vstavaný nábytok €",
+  furniture:"Presun + zakrytie nábytku €",
+
+  specialRepair:"Krb/plocha – oprava €/m²",
+  specialSanding:"Krb/plocha – brúsenie €/m²",
+  specialPenetration:"Krb/plocha – penetrácia €/m²",
+  specialMeshGlue:"Krb/plocha – klebrovanie / armovanie €/m²",
+  specialSkimcoat:"Krb/plocha – stierkovanie €/m²",
+  specialPutty:"Krb/plocha – tmelenie €/m²",
+  specialPaintPerCoat:"Krb/plocha – maľovanie €/m² za 1 náter",
+  specialDecor:"Krb/plocha – dekor / San Marco €/m²"
 };
-const DEFAULT_SETTINGS={km:0.35,min:50,small:70,reserve:10};
-let prices={...DEFAULT_PRICES,...JSON.parse(localStorage.getItem("ja_prices")||"{}")};
+
+const DEFAULT_SETTINGS={km:0.35,min:50,small:70,reserve:10,validity:14,phone:"",email:"",quoteNote:"Materiál zabezpečuje zákazník. Termín realizácie podľa dohody."};
+
+function migratePrices(raw){
+  const p={...DEFAULT_PRICES,...raw};
+  // If the user still has the original V1 price keys saved, keep them untouched
+  // but V2 uses the explicit per-coat fields above.
+  return p;
+}
+
+let prices=migratePrices(JSON.parse(localStorage.getItem("ja_prices_v2")||"{}"));
 let settings={...DEFAULT_SETTINGS,...JSON.parse(localStorage.getItem("ja_settings")||"{}")};
 let jobs=JSON.parse(localStorage.getItem("ja_jobs")||"[]");
-let roomSeq=0;
+let roomSeq=0, specialSeq=0, selectedJobId=null;
 
 const euro=n=>(Number(n)||0).toLocaleString("sk-SK",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
 const sqm=n=>(Number(n)||0).toLocaleString("sk-SK",{minimumFractionDigits:2,maximumFractionDigits:2})+" m²";
-const num=el=>Math.max(0,parseFloat(String(el.value).replace(",","."))||0);
+const nfmt=n=>(Number(n)||0).toLocaleString("sk-SK",{minimumFractionDigits:2,maximumFractionDigits:2});
+const num=el=>Math.max(0,parseFloat(String(el?.value??0).replace(",","."))||0);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 
 function showView(id){
- document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));
- document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.view===id));
- window.scrollTo({top:0,behavior:"smooth"});
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.view===id));
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>showView(t.dataset.view));
 
-function roomHtml(id,name){
- return `<div class="room" data-id="${id}">
-  <div class="roomHead"><strong>${name}</strong><button class="remove">Odstrániť</button></div>
-  <div class="roomBody">
-   <div class="mode"><button class="active" data-mode="calc">Výpočet miestnosti</button><button data-mode="direct">Priame m²</button></div>
-   <label>Typ miestnosti</label><select class="rtype"><option>Izba</option><option>Obývačka</option><option>Kuchyňa</option><option>Chodba</option><option>Kúpeľňa</option><option>Spálňa</option><option>Schodisko</option><option>Iné</option></select>
-   <label>Názov v ponuke</label><input class="rname" value="${name}">
-   <label>Farba</label><select class="color"><option value="white">Biela</option><option value="color">Farebná</option></select>
-   <label>Počet náterov</label><select class="coats"><option>1</option><option selected>2</option><option>3</option></select>
-   <div class="dimFields">
-    <label>Dĺžka m</label><input class="len" type="number" step=".01" value="0">
-    <label>Šírka m</label><input class="wid" type="number" step=".01" value="0">
-    <label>Výška m</label><input class="hei" type="number" step=".01" value="2.5">
-   </div>
-   <div class="directFields hidden"><label>Priama plocha stien m²</label><input class="directArea" type="number" step=".01" value="0"></div>
-
-   <div class="checkgrid">
-    <label class="chk"><input class="ceiling" type="checkbox" checked>Maľovať aj strop</label>
-    <label class="chk"><input class="subtract" type="checkbox">Odpočítať okná a dvere</label>
-    <label class="chk"><input class="penetration" type="checkbox">Penetrácia</label>
-    <label class="chk"><input class="repairs" type="checkbox">Opravy</label>
-    <label class="chk"><input class="putty" type="checkbox">Tmelenie</label>
-    <label class="chk"><input class="sanding" type="checkbox">Brúsenie</label>
-    <label class="chk"><input class="decor" type="checkbox">Dekor</label>
-    <label class="chk"><input class="stairs" type="checkbox">Schodisko / náročný prístup</label>
-   </div>
-
-   <div class="subcard openings hidden">
-    <h4>Okná a dvere</h4>
-    <div class="row3">
-      <div><label>Klasické dvere</label><input class="doorCount" type="number" min="0" value="1"></div>
-      <div><label>Veľké terasové dvere</label><input class="terraceCount" type="number" min="0" value="0"></div>
-      <div><label>Okná</label><input class="windowCount" type="number" min="0" value="1"></div>
-    </div>
-    <p class="miniNote">Rozmery otvorov nemusíš merať – aplikácia používa štandardný odhad.</p>
-   </div>
-
-   <div class="prepHead"><h3 style="margin:0">Príprava a ochrana</h3><button class="prepToggle">Rozbaliť</button></div>
-   <div class="prepBox">
-     ${prepItem("pFloor","Zakryť podlahu / parkety","Automaticky podľa plochy podlahy")}
-     ${prepItem("pSkirting","Olepiť soklové lišty","Automaticky podľa obvodu miestnosti")}
-     ${prepCount("pDoorFrame","Olepiť rámy / zárubne dverí")}
-     ${prepCount("pFullDoor","Zakryť celé dvere")}
-     ${prepCount("pWindow","Zakryť okná / rámy")}
-     ${prepCount("pSill","Zakryť parapety")}
-     ${lightItem("pCeilLight","Stropné svetlá")}
-     ${lightItem("pWallLight","Nástenné svetlá")}
-     ${prepCount("pAc","Zakryť klimatizáciu")}
-     ${prepCount("pPicture","Obrazy / dekorácie")}
-     ${prepCount("pTv","TV / nástenné prvky")}
-     ${prepCount("pRadiator","Radiátory")}
-     ${prepCount("pSocket","Zásuvky / vypínače")}
-     ${prepItem("pKitchen","Kuchynská linka / vstavaný nábytok","Zakrytie a olepenie")}
-     ${prepItem("pFurniture","Voľne stojaci nábytok","Presun + zakrytie")}
-     <div class="prepItem"><div class="top"><input class="pOther" type="checkbox">Iné</div>
-       <div class="inline"><input class="pOtherText" placeholder="Vlastná položka"><input class="pOtherPrice" type="number" min="0" step=".5" value="0"></div>
-     </div>
-   </div>
-
-   <div class="summaryMini">
-    Steny po odpočte: <b class="rWalls">0,00 m²</b><br>
-    Strop: <b class="rCeil">0,00 m²</b><br>
-    Odpočítané otvory: <b class="rOpen">0,00 m²</b><br>
-    Príprava a ochrana: <b class="rPrep">0,00 €</b><br>
-    Cena miestnosti: <b class="rPrice">0,00 €</b>
-   </div>
-  </div>
- </div>`;
-}
 function prepItem(cls,title,note){return `<div class="prepItem"><div class="top"><input class="${cls}" type="checkbox"><span>${title}</span></div><div class="miniNote">${note}</div></div>`}
 function prepCount(cls,title){return `<div class="prepItem"><div class="top"><input class="${cls}" type="checkbox"><span>${title}</span></div><div class="inline"><span class="miniNote">Počet kusov</span><input class="${cls}Count" type="number" min="0" value="1"></div></div>`}
 function lightItem(cls,title){return `<div class="prepItem"><div class="top"><input class="${cls}" type="checkbox"><span>${title}</span></div><div class="inline"><select class="${cls}Action"><option value="cover">Iba zakryť</option><option value="remove">Odpojiť + zapojiť späť</option></select><input class="${cls}Count" type="number" min="0" value="1"></div></div>`}
 
-function addRoom(name){
- roomSeq++;
- const wrap=document.createElement("div");
- wrap.innerHTML=roomHtml(roomSeq,name||`Izba ${roomSeq}`);
- const room=wrap.firstElementChild;
- document.getElementById("rooms").appendChild(room);
- bindRoom(room); calc();
+function roomHtml(id,name){
+ return `<div class="room standardRoom" data-id="${id}" data-kind="room">
+  <div class="roomHead"><strong class="roomTitle">${esc(name)}</strong><button class="remove">Odstrániť</button></div>
+  <div class="roomBody compactRoomBody">
+    <div class="mode"><button class="active" data-mode="calc">Výpočet miestnosti</button><button data-mode="direct">Priame m² stien</button></div>
+
+    <div class="roomMainGrid">
+      <section class="roomPanel roomPanelLeft">
+        <h4>Základ a rozmery</h4>
+
+        <div class="fieldGrid two">
+          <div>
+            <label>Typ miestnosti</label>
+            <select class="rtype"><option>Izba</option><option>Obývačka</option><option>Kuchyňa</option><option>Chodba</option><option>Kúpeľňa</option><option>WC</option><option>Technická miestnosť</option><option>Spálňa</option><option>Šatník</option><option>Špajza</option><option>Schodisko</option><option>Iné</option></select>
+          </div>
+          <div>
+            <label>Názov v ponuke</label><input class="rname" value="${esc(name)}">
+          </div>
+        </div>
+
+        <div class="dimFields fieldGrid three">
+          <div><label>Dĺžka m</label><input class="len" type="number" step=".01" value="0"></div>
+          <div><label>Šírka m</label><input class="wid" type="number" step=".01" value="0"></div>
+          <div><label>Výška m</label><input class="hei" type="number" step=".01" value="2.5"></div>
+        </div>
+
+        <div class="directFields hidden">
+          <label>Priama plocha stien m²</label><input class="directArea" type="number" step=".01" value="0">
+        </div>
+
+        <div class="miniChecks">
+          <label class="chk"><input class="subtract" type="checkbox">Odpočítať okná a dvere</label>
+          <label class="chk"><input class="acrylicCeiling" type="checkbox">Akrylovanie stropných rohov</label>
+        </div>
+
+        <div class="acrylicLine">
+          <label>Akryl – bežné metre</label><input class="acrylicBm" type="number" min="0" step=".1" value="0">
+        </div>
+
+        <div class="subcard openings hidden">
+          <h4>Okná a dvere</h4>
+          <div class="fieldGrid four">
+            <div><label>Klasické dvere</label><input class="doorCount" type="number" min="0" value="1"></div>
+            <div><label>Terasové dvere</label><input class="terraceCount" type="number" min="0" value="0"></div>
+            <div><label>Štandardné okná</label><input class="windowCount" type="number" min="0" value="1"></div>
+            <div><label>Malé kúpeľňové okná</label><input class="smallWindowCount" type="number" min="0" value="0"></div>
+          </div>
+          <p class="miniNote">Používa sa štandardný odhad: dvere 1,80 m², terasové dvere 4,00 m², okno 1,80 m², malé kúpeľňové okno 0,60 m².</p>
+        </div>
+      </section>
+
+      <section class="roomPanel roomPanelRight">
+        <h4>Maľovanie a práce</h4>
+
+        <div class="paintBlock">
+          <div class="paintTitleRow">
+            <div class="paintTitle">Steny</div>
+            <label class="miniToggle"><input class="paintWalls" type="checkbox" checked> Maľovať</label>
+          </div>
+          <div class="fieldGrid two">
+            <div><label>Farba</label><select class="wallColor"><option value="white">Biela</option><option value="color">Farebná</option></select></div>
+            <div><label>Počet náterov</label><select class="wallCoats"><option>1</option><option selected>2</option><option>3</option></select></div>
+          </div>
+        </div>
+
+        <div class="paintBlock">
+          <div class="paintTitleRow">
+            <div class="paintTitle">Strop</div>
+            <label class="miniToggle"><input class="ceiling" type="checkbox" checked> Maľovať</label>
+          </div>
+          <div class="fieldGrid two">
+            <div><label>Farba</label><select class="ceilingColor"><option value="white">Biela</option><option value="color">Farebná</option></select></div>
+            <div><label>Počet náterov</label><select class="ceilingCoats"><option selected>1</option><option>2</option><option>3</option></select></div>
+          </div>
+        </div>
+
+        <div class="workChecks">
+          <label class="chk"><input class="penetrationWall" type="checkbox">Penetrácia stien</label>
+          <label class="chk"><input class="penetrationCeiling" type="checkbox">Penetrácia stropu</label>
+          <label class="chk"><input class="repairs" type="checkbox">Opravy stien</label>
+          <label class="chk"><input class="putty" type="checkbox">Tmelenie</label>
+          <label class="chk"><input class="sanding" type="checkbox">Brúsenie</label>
+          <label class="chk"><input class="decor" type="checkbox">Dekor / San Marco</label>
+          <label class="chk"><input class="stairs" type="checkbox">Schodisko / náročný prístup</label>
+        </div>
+      </section>
+    </div>
+
+
+    <div class="docSection">
+      <div class="docHead"><strong>Dokumentácia a čas</strong><span class="miniNote">interné – pre teba</span></div>
+      <div class="timeGrid">
+        <div><label>Odhad hodín</label><input class="planHours" type="number" min="0" step=".5" value="0"></div>
+        <div><label>Odhad dní</label><input class="planDays" type="number" min="0" step=".5" value="0"></div>
+        <div><label>Skutočné hodiny</label><input class="actualHours" type="number" min="0" step=".5" value="0"></div>
+        <div><label>Skutočné dni</label><input class="actualDays" type="number" min="0" step=".5" value="0"></div>
+      </div>
+      <label>Poznámka k miestnosti</label>
+      <textarea class="roomNote" rows="3" placeholder="Napr. prasklina pri okne, 1x strop, 3x steny, dohodnutá oprava..."></textarea>
+      <div class="docBtns">
+        <button type="button" class="smallAction dictateBtn">🎙️ Diktovať poznámku</button>
+        <label class="smallAction photoLabel">📷 Pridať fotografiu<input class="photoInput" type="file" accept="image/*" capture="environment"></label>
+        <button type="button" class="smallAction removePhotoBtn hidden">Odstrániť foto</button>
+      </div>
+      <div class="photoPreviewWrap hidden"><img class="photoPreview" alt="Fotografia miestnosti"></div>
+    </div>
+
+    <div class="prepHead"><h3 style="margin:0">Príprava a ochrana</h3><button class="prepToggle">Rozbaliť</button></div>
+    <div class="prepBox">
+      ${prepItem("pFloor","Zakryť podlahu / parkety","Automaticky podľa plochy podlahy")}
+      ${prepItem("pSkirting","Olepiť soklové lišty","Automaticky podľa obvodu miestnosti")}
+      ${prepCount("pDoorFrame","Olepiť rámy / zárubne dverí")}
+      ${prepCount("pFullDoor","Zakryť celé dvere")}
+      ${prepCount("pWindow","Zakryť okná / rámy")}
+      ${prepCount("pSill","Zakryť parapety")}
+      ${lightItem("pCeilLight","Stropné svetlá")}
+      ${lightItem("pWallLight","Nástenné svetlá")}
+      ${prepCount("pAc","Zakryť klimatizáciu")}
+      ${prepCount("pPicture","Obrazy / dekorácie")}
+      ${prepCount("pTv","TV / nástenné prvky")}
+      ${prepCount("pRadiator","Radiátory")}
+      ${prepCount("pSocket","Zásuvky / vypínače")}
+      ${prepItem("pKitchen","Kuchynská linka / vstavaný nábytok","Zakrytie a olepenie")}
+      ${prepItem("pFurniture","Voľne stojaci nábytok","Presun + zakrytie")}
+      <div class="prepItem"><div class="top"><input class="pOther" type="checkbox">Iné</div>
+        <div class="inline"><input class="pOtherText" placeholder="Vlastná položka"><input class="pOtherPrice" type="number" min="0" step=".5" value="0"></div>
+      </div>
+    </div>
+
+    <div class="summaryMini compactSummary">
+      <div><span>Steny</span><b class="rWalls">0,00 m²</b></div>
+      <div><span>Strop</span><b class="rCeil">0,00 m²</b></div>
+      <div><span>Otvory</span><b class="rOpen">0,00 m²</b></div>
+      <div><span>Maľovanie + práce</span><b class="rPaint">0,00 €</b></div>
+      <div><span>Príprava</span><b class="rPrep">0,00 €</b></div>
+      <div class="roomTotal"><span>Cena miestnosti</span><b class="rPrice">0,00 €</b></div>
+    </div>
+  </div>
+ </div>`;
 }
+
+function specialHtml(id,name){
+ return `<div class="room specialRoom" data-id="${id}" data-kind="special">
+   <div class="roomHead"><strong class="roomTitle">${esc(name)}</strong><button class="remove">Odstrániť</button></div>
+   <div class="roomBody">
+     <label>Typ plochy</label>
+     <select class="stype"><option>Krb</option><option>TV stena</option><option>Stĺp</option><option>Výklenok</option><option>Špeciálna plocha</option></select>
+     <label>Názov v ponuke</label><input class="sname" value="${esc(name)}">
+     <label>Plocha m²</label><input class="sarea" type="number" min="0" step=".01" value="0">
+
+     <div class="specialGrid" style="margin-top:14px">
+       <label class="chk"><input class="sRepair" type="checkbox">Oprava / vysprávkovanie</label>
+       <label class="chk"><input class="sSanding" type="checkbox">Brúsenie</label>
+       <label class="chk"><input class="sPenetration" type="checkbox">Penetrácia</label>
+       <label class="chk"><input class="sMeshGlue" type="checkbox">Klebrovanie / armovanie</label>
+       <label class="chk"><input class="sSkimcoat" type="checkbox">Stierkovanie</label>
+       <label class="chk"><input class="sPutty" type="checkbox">Tmelenie</label>
+       <label class="chk"><input class="sPaint" type="checkbox">Maľovanie</label>
+       <label class="chk"><input class="sDecor" type="checkbox">Dekor / San Marco</label>
+     </div>
+
+     <div class="workSection">
+       <label>Počet náterov na špeciálnej ploche</label>
+       <select class="sCoats"><option selected>1</option><option>2</option><option>3</option></select>
+       <div class="miniNote">Počet náterov sa započíta iba vtedy, keď označíš Maľovanie.</div>
+     </div>
+
+
+     <div class="docSection">
+       <div class="docHead"><strong>Dokumentácia a čas</strong><span class="miniNote">interné – pre teba</span></div>
+       <div class="timeGrid">
+         <div><label>Odhad hodín</label><input class="planHours" type="number" min="0" step=".5" value="0"></div>
+         <div><label>Odhad dní</label><input class="planDays" type="number" min="0" step=".5" value="0"></div>
+         <div><label>Skutočné hodiny</label><input class="actualHours" type="number" min="0" step=".5" value="0"></div>
+         <div><label>Skutočné dni</label><input class="actualDays" type="number" min="0" step=".5" value="0"></div>
+       </div>
+       <label>Poznámka ku krbu / ploche</label>
+       <textarea class="roomNote" rows="3" placeholder="Napr. prebrúsiť, klebrovať, stierka, San Marco Luxury..."></textarea>
+       <div class="docBtns">
+         <button type="button" class="smallAction dictateBtn">🎙️ Diktovať poznámku</button>
+         <label class="smallAction photoLabel">📷 Pridať fotografiu<input class="photoInput" type="file" accept="image/*" capture="environment"></label>
+         <button type="button" class="smallAction removePhotoBtn hidden">Odstrániť foto</button>
+       </div>
+       <div class="photoPreviewWrap hidden"><img class="photoPreview" alt="Fotografia plochy"></div>
+     </div>
+
+     <div class="summaryMini">
+       Plocha: <b class="sAreaOut">0,00 m²</b><br>
+       Cena špeciálnej plochy: <b class="sPrice">0,00 €</b>
+     </div>
+   </div>
+ </div>`;
+}
+
+
+async function compressPhoto(file,maxSide=900,quality=.58){
+  return new Promise((resolve,reject)=>{
+    const rd=new FileReader();
+    rd.onerror=reject;
+    rd.onload=()=>{
+      const img=new Image();
+      img.onerror=reject;
+      img.onload=()=>{
+        let w=img.width,h=img.height;
+        const scale=Math.min(1,maxSide/Math.max(w,h));w=Math.round(w*scale);h=Math.round(h*scale);
+        const c=document.createElement("canvas");c.width=w;c.height=h;
+        c.getContext("2d").drawImage(img,0,0,w,h);
+        resolve(c.toDataURL("image/jpeg",quality));
+      };
+      img.src=rd.result;
+    };
+    rd.readAsDataURL(file);
+  });
+}
+function setCardPhoto(card,data){
+  card.dataset.photo=data||"";
+  const wrap=card.querySelector(".photoPreviewWrap"),img=card.querySelector(".photoPreview"),rm=card.querySelector(".removePhotoBtn");
+  if(data){img.src=data;wrap.classList.remove("hidden");rm.classList.remove("hidden");}
+  else{img.removeAttribute("src");wrap.classList.add("hidden");rm.classList.add("hidden");}
+}
+function bindDocumentation(card){
+  const input=card.querySelector(".photoInput");
+  if(input) input.onchange=async e=>{
+    const f=e.target.files?.[0];if(!f)return;
+    try{setCardPhoto(card,await compressPhoto(f));calc();}
+    catch(err){alert("Fotografiu sa nepodarilo spracovať.");}
+    input.value="";
+  };
+  const rm=card.querySelector(".removePhotoBtn");
+  if(rm)rm.onclick=()=>{setCardPhoto(card,"");calc();};
+  const d=card.querySelector(".dictateBtn");
+  if(d)d.onclick=()=>{
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){alert("Hlasové diktovanie nie je v tomto prehliadači podporované. Poznámku môžeš zapísať ručne.");return;}
+    const rec=new SR();rec.lang="sk-SK";rec.interimResults=false;rec.maxAlternatives=1;
+    d.classList.add("voiceActive");d.textContent="🎙️ Počúvam...";
+    rec.onresult=ev=>{const t=ev.results[0][0].transcript;const ta=card.querySelector(".roomNote");ta.value=(ta.value?ta.value+" ":"")+t;calc();};
+    rec.onerror=()=>alert("Diktovanie sa nepodarilo. Skús to ešte raz.");
+    rec.onend=()=>{d.classList.remove("voiceActive");d.textContent="🎙️ Diktovať poznámku";};
+    rec.start();
+  };
+}
+
+function bindCommon(card){
+  card.querySelector(".remove").onclick=()=>{card.remove();calc()};
+  card.querySelectorAll("input,select").forEach(el=>{
+    el.addEventListener("input",()=>{updateTitle(card);calc()});
+    el.addEventListener("change",()=>{updateTitle(card);calc()});
+  });
+}
+
 function bindRoom(r){
- r.querySelector(".remove").onclick=()=>{r.remove();calc()};
- r.querySelectorAll("input,select").forEach(el=>{el.addEventListener("input",calc);el.addEventListener("change",calc)});
- r.querySelector(".subtract").onchange=e=>{r.querySelector(".openings").classList.toggle("hidden",!e.target.checked);calc()};
- r.querySelector(".prepToggle").onclick=()=>{const b=r.querySelector(".prepBox");b.classList.toggle("open");r.querySelector(".prepToggle").textContent=b.classList.contains("open")?"Zbaliť":"Rozbaliť"};
- r.querySelectorAll(".mode button").forEach(b=>b.onclick=()=>{
-   r.querySelectorAll(".mode button").forEach(x=>x.classList.remove("active"));b.classList.add("active");
-   const direct=b.dataset.mode==="direct";r.dataset.mode=direct?"direct":"calc";
-   r.querySelector(".dimFields").classList.toggle("hidden",direct);r.querySelector(".directFields").classList.toggle("hidden",!direct);calc();
- });
+  bindCommon(r);bindDocumentation(r);
+  r.querySelector(".subtract").onchange=e=>{r.querySelector(".openings").classList.toggle("hidden",!e.target.checked);calc()};
+  r.querySelector(".prepToggle").onclick=()=>{const b=r.querySelector(".prepBox");b.classList.toggle("open");r.querySelector(".prepToggle").textContent=b.classList.contains("open")?"Zbaliť":"Rozbaliť"};
+  r.querySelectorAll(".mode button").forEach(b=>b.onclick=()=>{
+    r.querySelectorAll(".mode button").forEach(x=>x.classList.remove("active"));b.classList.add("active");
+    const direct=b.dataset.mode==="direct";r.dataset.mode=direct?"direct":"calc";
+    r.querySelector(".dimFields").classList.toggle("hidden",direct);
+    r.querySelector(".directFields").classList.toggle("hidden",!direct);
+    calc();
+  });
+}
+
+function bindSpecial(r){ bindCommon(r);bindDocumentation(r); }
+
+function updateTitle(card){
+  const input=card.dataset.kind==="special"?card.querySelector(".sname"):card.querySelector(".rname");
+  const title=card.querySelector(".roomTitle");
+  if(input && title) title.textContent=input.value.trim() || (card.dataset.kind==="special"?"Krb / plocha":"Miestnosť");
+}
+
+function addRoom(name, prepend=true){
+  roomSeq++;
+  const wrap=document.createElement("div");
+  wrap.innerHTML=roomHtml(roomSeq,name||`Izba ${roomSeq}`);
+  const room=wrap.firstElementChild;
+  const holder=document.getElementById("rooms");
+  prepend?holder.prepend(room):holder.appendChild(room);
+  bindRoom(room); calc();
+  if(prepend) room.scrollIntoView({behavior:"smooth",block:"start"});
+  return room;
+}
+
+function addSpecial(name, prepend=true){
+  specialSeq++;
+  const wrap=document.createElement("div");
+  wrap.innerHTML=specialHtml(specialSeq,name||`Krb / plocha ${specialSeq}`);
+  const room=wrap.firstElementChild;
+  const holder=document.getElementById("rooms");
+  prepend?holder.prepend(room):holder.appendChild(room);
+  bindSpecial(room); calc();
+  if(prepend) room.scrollIntoView({behavior:"smooth",block:"start"});
+  return room;
 }
 
 function roomCalc(r){
- const direct=r.dataset.mode==="direct";
- const L=num(r.querySelector(".len")),W=num(r.querySelector(".wid")),H=num(r.querySelector(".hei"));
- const perimeter=2*(L+W);
- let walls=direct?num(r.querySelector(".directArea")):perimeter*H;
- let ceiling=direct?0:L*W;
- let opening=0;
- if(r.querySelector(".subtract").checked){
-   opening=num(r.querySelector(".doorCount"))*1.8+num(r.querySelector(".terraceCount"))*4.0+num(r.querySelector(".windowCount"))*1.8;
-   walls=Math.max(0,walls-opening);
- }
- const color=r.querySelector(".color").value,coats=parseInt(r.querySelector(".coats").value)||1;
- let paint=walls*(prices[(color==="white"?"white":"color")+coats]||0);
- if(r.querySelector(".ceiling").checked) paint+=ceiling*((prices["white"+coats]||0)+prices.ceilingExtra);
- else ceiling=0;
- const fullArea=walls+ceiling;
- if(r.querySelector(".penetration").checked) paint+=fullArea*prices.penetration;
- if(r.querySelector(".repairs").checked) paint+=walls*prices.repairs;
- if(r.querySelector(".putty").checked) paint+=walls*prices.putty;
- if(r.querySelector(".sanding").checked) paint+=walls*prices.sanding;
- if(r.querySelector(".decor").checked) paint+=walls*prices.decor;
- if(r.querySelector(".stairs").checked) paint+=walls*prices.stairsExtra;
+  const direct=r.dataset.mode==="direct";
+  const L=num(r.querySelector(".len")),W=num(r.querySelector(".wid")),H=num(r.querySelector(".hei"));
+  const perimeter=2*(L+W);
+  let walls=direct?num(r.querySelector(".directArea")):perimeter*H;
+  let ceiling=r.querySelector(".savedCeilingArea")?num(r.querySelector(".savedCeilingArea")):L*W;
+  let opening=0;
 
- let prep=0;
- if(r.querySelector(".pFloor").checked) prep+=(L*W)*prices.covering;
- if(r.querySelector(".pSkirting").checked) prep+=Math.max(0,perimeter-num(r.querySelector(".doorCount"))*.9-num(r.querySelector(".terraceCount"))*1.8)*prices.skirting;
- const pcs=(c,k)=>{if(r.querySelector("."+c).checked) prep+=num(r.querySelector("."+c+"Count"))*prices[k]};
- pcs("pDoorFrame","doorFrame");pcs("pFullDoor","fullDoor");pcs("pWindow","window");pcs("pSill","sill");
- pcs("pAc","acCover");pcs("pPicture","picture");pcs("pTv","tv");pcs("pRadiator","radiator");pcs("pSocket","socket");
- [["pCeilLight"],["pWallLight"]].forEach(([c])=>{if(r.querySelector("."+c).checked){const a=r.querySelector("."+c+"Action").value;prep+=num(r.querySelector("."+c+"Count"))*(a==="remove"?prices.lightRemove:prices.lightCover)}});
- if(r.querySelector(".pKitchen").checked) prep+=prices.kitchen;
- if(r.querySelector(".pFurniture").checked) prep+=prices.furniture;
- if(r.querySelector(".pOther").checked) prep+=num(r.querySelector(".pOtherPrice"));
+  if(r.querySelector(".subtract").checked){
+    opening=num(r.querySelector(".doorCount"))*1.8+num(r.querySelector(".terraceCount"))*4.0+num(r.querySelector(".windowCount"))*1.8+num(r.querySelector(".smallWindowCount"))*0.60;
+    walls=Math.max(0,walls-opening);
+  }
 
- r.querySelector(".rWalls").textContent=sqm(walls);r.querySelector(".rCeil").textContent=sqm(ceiling);
- r.querySelector(".rOpen").textContent=sqm(opening);r.querySelector(".rPrep").textContent=euro(prep);r.querySelector(".rPrice").textContent=euro(paint+prep);
- return {walls,ceiling,paint,prep,total:paint+prep};
+  const paintWalls=r.querySelector(".paintWalls").checked;
+  const wallCoats=paintWalls?(parseInt(r.querySelector(".wallCoats").value)||1):0;
+  const wallRate=r.querySelector(".wallColor").value==="white"?prices.wallWhitePerCoat:prices.wallColorPerCoat;
+  const pricedWalls=paintWalls?walls:0;
+  let paint=pricedWalls*wallCoats*wallRate;
+
+  let ceilingPrice=0;
+  let ceilingCoats=0;
+  if(r.querySelector(".ceiling").checked){
+    ceilingCoats=parseInt(r.querySelector(".ceilingCoats").value)||1;
+    const ceilingRate=r.querySelector(".ceilingColor").value==="white"?prices.ceilingWhitePerCoat:prices.ceilingColorPerCoat;
+    ceilingPrice=ceiling*ceilingCoats*ceilingRate;
+    paint+=ceilingPrice;
+  }else{
+    ceiling=0;
+  }
+
+  if(paintWalls && r.querySelector(".penetrationWall").checked) paint+=walls*prices.penetrationWall;
+  if(r.querySelector(".penetrationCeiling").checked && ceiling>0) paint+=ceiling*prices.penetrationCeiling;
+  if(paintWalls && r.querySelector(".repairs").checked) paint+=walls*prices.repairs;
+  if(paintWalls && r.querySelector(".putty").checked) paint+=walls*prices.putty;
+  if(paintWalls && r.querySelector(".sanding").checked) paint+=walls*prices.sanding;
+  if(paintWalls && r.querySelector(".decor").checked) paint+=walls*prices.decor;
+  if(paintWalls && r.querySelector(".stairs").checked) paint+=walls*prices.stairsExtra;
+  if(r.querySelector(".acrylicCeiling").checked) paint+=num(r.querySelector(".acrylicBm"))*prices.acrylicCeilingPerM;
+
+  let prep=0;
+  if(r.querySelector(".pFloor").checked) prep+=(L*W)*prices.covering;
+  if(r.querySelector(".pSkirting").checked) prep+=Math.max(0,perimeter-num(r.querySelector(".doorCount"))*.9-num(r.querySelector(".terraceCount"))*1.8)*prices.skirting;
+  const pcs=(c,k)=>{if(r.querySelector("."+c).checked) prep+=num(r.querySelector("."+c+"Count"))*prices[k]};
+  pcs("pDoorFrame","doorFrame");pcs("pFullDoor","fullDoor");pcs("pWindow","window");pcs("pSill","sill");
+  pcs("pAc","acCover");pcs("pPicture","picture");pcs("pTv","tv");pcs("pRadiator","radiator");pcs("pSocket","socket");
+  ["pCeilLight","pWallLight"].forEach(c=>{if(r.querySelector("."+c).checked){const a=r.querySelector("."+c+"Action").value;prep+=num(r.querySelector("."+c+"Count"))*(a==="remove"?prices.lightRemove:prices.lightCover)}});
+  if(r.querySelector(".pKitchen").checked) prep+=prices.kitchen;
+  if(r.querySelector(".pFurniture").checked) prep+=prices.furniture;
+  if(r.querySelector(".pOther").checked) prep+=num(r.querySelector(".pOtherPrice"));
+
+  r.querySelector(".rWalls").textContent=sqm(paintWalls?walls:0);
+  r.querySelector(".rCeil").textContent=sqm(ceiling);
+  r.querySelector(".rOpen").textContent=sqm(opening);
+  r.querySelector(".rPaint").textContent=euro(paint);
+  r.querySelector(".rPrep").textContent=euro(prep);
+  r.querySelector(".rPrice").textContent=euro(paint+prep);
+
+  const paintedWalls=paintWalls?walls:0;
+  return {
+    kind:"room",
+    name:r.querySelector(".rname").value.trim()||"Miestnosť",
+    type:r.querySelector(".rtype").value,
+    walls:paintedWalls,ceiling,opening,paint,prep,total:paint+prep,
+    wallCoats,ceilingCoats,
+    paintWalls,wallColor:r.querySelector(".wallColor").value,
+    ceilingColor:r.querySelector(".ceilingColor").value,
+    penetrationWall:r.querySelector(".penetrationWall").checked,penetrationCeiling:r.querySelector(".penetrationCeiling").checked,
+    repairs:r.querySelector(".repairs").checked,putty:r.querySelector(".putty").checked,sanding:r.querySelector(".sanding").checked,decor:r.querySelector(".decor").checked,stairs:r.querySelector(".stairs").checked,
+    acrylicBm:r.querySelector(".acrylicCeiling").checked?num(r.querySelector(".acrylicBm")):0,
+    wallPaintCost:paintedWalls*wallCoats*wallRate,ceilingPaintCost:ceilingPrice,
+    penetrationWallCost:(paintWalls&&r.querySelector(".penetrationWall").checked)?walls*prices.penetrationWall:0,
+    penetrationCeilingCost:(r.querySelector(".penetrationCeiling").checked&&ceiling>0)?ceiling*prices.penetrationCeiling:0,
+    repairsCost:(paintWalls&&r.querySelector(".repairs").checked)?walls*prices.repairs:0,puttyCost:(paintWalls&&r.querySelector(".putty").checked)?walls*prices.putty:0,
+    sandingCost:(paintWalls&&r.querySelector(".sanding").checked)?walls*prices.sanding:0,decorCost:(paintWalls&&r.querySelector(".decor").checked)?walls*prices.decor:0,
+    stairsCost:(paintWalls&&r.querySelector(".stairs").checked)?walls*prices.stairsExtra:0,acrylicCost:r.querySelector(".acrylicCeiling").checked?num(r.querySelector(".acrylicBm"))*prices.acrylicCeilingPerM:0,
+    note:r.querySelector(".roomNote")?.value.trim()||"",
+    photo:r.dataset.photo||"",
+    planHours:num(r.querySelector(".planHours")),planDays:num(r.querySelector(".planDays")),
+    actualHours:num(r.querySelector(".actualHours")),actualDays:num(r.querySelector(".actualDays"))
+  };
 }
+
+function specialCalc(r){
+  const area=num(r.querySelector(".sarea"));
+  let price=0;
+  const works=[];
+  const add=(cls,key,label)=>{
+    if(r.querySelector("."+cls).checked){
+      const v=area*prices[key];price+=v;works.push({label,value:v});
+    }
+  };
+  add("sRepair","specialRepair","Oprava / vysprávkovanie");
+  add("sSanding","specialSanding","Brúsenie");
+  add("sPenetration","specialPenetration","Penetrácia");
+  add("sMeshGlue","specialMeshGlue","Klebrovanie / armovanie");
+  add("sSkimcoat","specialSkimcoat","Stierkovanie");
+  add("sPutty","specialPutty","Tmelenie");
+  if(r.querySelector(".sPaint").checked){
+    const coats=parseInt(r.querySelector(".sCoats").value)||1;
+    const v=area*coats*prices.specialPaintPerCoat;price+=v;works.push({label:`Maľovanie ${coats}×`,value:v});
+  }
+  add("sDecor","specialDecor","Dekor / San Marco");
+
+  r.querySelector(".sAreaOut").textContent=sqm(area);
+  r.querySelector(".sPrice").textContent=euro(price);
+
+  return {
+    kind:"special",
+    name:r.querySelector(".sname").value.trim()||"Krb / špeciálna plocha",
+    type:r.querySelector(".stype").value,
+    area,price,total:price,works,
+    note:r.querySelector(".roomNote")?.value.trim()||"",
+    photo:r.dataset.photo||"",
+    planHours:num(r.querySelector(".planHours")),planDays:num(r.querySelector(".planDays")),
+    actualHours:num(r.querySelector(".actualHours")),actualDays:num(r.querySelector(".actualDays"))
+  };
+}
+
 function calc(){
- const rs=[...document.querySelectorAll(".room")].map(roomCalc);
- const walls=rs.reduce((a,b)=>a+b.walls,0),ceil=rs.reduce((a,b)=>a+b.ceiling,0);
- const painting=rs.reduce((a,b)=>a+b.paint,0),prep=rs.reduce((a,b)=>a+b.prep,0);
- const travel=num(document.getElementById("km"))*settings.km;
- let base=painting+prep+travel;
- const reserve=document.getElementById("reserve").checked?base*(settings.reserve/100):0;
- base+=reserve;
- const disc=Math.min(100,num(document.getElementById("discount")));
- const discount=base*(disc/100);
- let final=Math.max(settings.min,base-discount);
- document.getElementById("sumWalls").textContent=sqm(walls);document.getElementById("sumCeil").textContent=sqm(ceil);
- document.getElementById("sumArea").textContent=sqm(walls+ceil);document.getElementById("sumPainting").textContent=euro(painting);
- document.getElementById("sumPrep").textContent=euro(prep);document.getElementById("sumTravel").textContent=euro(travel);
- document.getElementById("sumReserve").textContent=euro(reserve);document.getElementById("sumDiscount").textContent=euro(discount);
- document.getElementById("sumFinal").textContent=euro(final);document.getElementById("bottomPrice").textContent=euro(final);
- return {walls,ceil,painting,prep,travel,reserve,discount,final};
+  const roomCards=[...document.querySelectorAll('[data-kind="room"]')];
+  const specialCards=[...document.querySelectorAll('[data-kind="special"]')];
+  const rs=roomCards.map(roomCalc);
+  const ss=specialCards.map(specialCalc);
+
+  const walls=rs.reduce((a,b)=>a+b.walls,0);
+  const ceil=rs.reduce((a,b)=>a+b.ceiling,0);
+  const painting=rs.reduce((a,b)=>a+b.paint,0);
+  const prep=rs.reduce((a,b)=>a+b.prep,0);
+  const special=ss.reduce((a,b)=>a+b.price,0);
+  const travel=num(document.getElementById("km"))*settings.km;
+
+  let base=painting+prep+special+travel;
+  const reserve=document.getElementById("reserve").checked?base*(settings.reserve/100):0;
+  base+=reserve;
+  const disc=Math.min(100,num(document.getElementById("discount")));
+  const discount=base*(disc/100);
+  const materialCost=document.getElementById("materialBy").value==="provider"?num(document.getElementById("materialCost")):0;
+  const final=Math.max(settings.min,base-discount+materialCost);
+
+  document.getElementById("sumWalls").textContent=sqm(walls);
+  document.getElementById("sumCeil").textContent=sqm(ceil);
+  document.getElementById("sumArea").textContent=sqm(walls+ceil);
+  document.getElementById("sumPainting").textContent=euro(painting);
+  document.getElementById("sumPrep").textContent=euro(prep);
+  document.getElementById("sumSpecial").textContent=euro(special);
+  document.getElementById("sumTravel").textContent=euro(travel);
+  document.getElementById("sumReserve").textContent=euro(reserve);
+  document.getElementById("sumDiscount").textContent=euro(discount);
+  document.getElementById("sumFinal").textContent=euro(final);
+  document.getElementById("bottomPrice").textContent=euro(final);
+
+  return {walls,ceil,painting,prep,special,travel,reserve,discount,materialCost,final,rooms:rs,specials:ss};
 }
-["customer","address","discount","km","status","reserve"].forEach(id=>document.getElementById(id).addEventListener("input",calc));
+
+["customer","address","customerPhone","customerEmail","discount","km","status","reserve","materialCost","estimatedDays","depositPct"].forEach(id=>{
+  const el=document.getElementById(id);if(el)el.addEventListener("input",calc);
+});
 document.getElementById("customerType").onchange=e=>{document.getElementById("discount").value=e.target.value;syncPills();calc()};
 document.querySelectorAll("[data-disc]").forEach(b=>b.onclick=()=>{document.getElementById("discount").value=b.dataset.disc;syncPills();calc()});
 function syncPills(){const d=String(Math.round(num(document.getElementById("discount"))));document.querySelectorAll("[data-disc]").forEach(b=>b.classList.toggle("active",b.dataset.disc===d))}
 
-function saveJob(){
- const s=calc(), name=document.getElementById("customer").value.trim()||"Bez mena";
- const job={id:"JA-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6),date:new Date().toISOString(),
-   customer:name,address:document.getElementById("address").value.trim(),status:document.getElementById("status").value,
-   rooms:document.querySelectorAll(".room").length,area:s.walls+s.ceil,final:s.final};
- jobs.unshift(job);localStorage.setItem("ja_jobs",JSON.stringify(jobs));renderJobs();alert("Zákazka uložená.");
+function currentJobPayload(existingId=null){
+  const s=calc();
+  const roomCards=[...document.querySelectorAll('[data-kind="room"]')];
+  const specialCards=[...document.querySelectorAll('[data-kind="special"]')];
+  const roomInputs=roomCards.map(r=>({
+    name:r.querySelector(".rname").value.trim()||"Miestnosť",type:r.querySelector(".rtype").value,mode:r.dataset.mode||"calc",
+    len:num(r.querySelector(".len")),wid:num(r.querySelector(".wid")),hei:num(r.querySelector(".hei")),directArea:num(r.querySelector(".directArea")),
+    subtract:r.querySelector(".subtract").checked,doorCount:num(r.querySelector(".doorCount")),terraceCount:num(r.querySelector(".terraceCount")),windowCount:num(r.querySelector(".windowCount")),smallWindowCount:num(r.querySelector(".smallWindowCount")),
+    paintWalls:r.querySelector(".paintWalls").checked,
+    wallColor:r.querySelector(".wallColor").value,wallCoats:parseInt(r.querySelector(".wallCoats").value)||1,
+    ceiling:r.querySelector(".ceiling").checked,ceilingColor:r.querySelector(".ceilingColor").value,ceilingCoats:parseInt(r.querySelector(".ceilingCoats").value)||1,
+    penetrationWall:r.querySelector(".penetrationWall").checked,penetrationCeiling:r.querySelector(".penetrationCeiling").checked,
+    repairs:r.querySelector(".repairs").checked,putty:r.querySelector(".putty").checked,sanding:r.querySelector(".sanding").checked,decor:r.querySelector(".decor").checked,stairs:r.querySelector(".stairs").checked,
+    acrylicCeiling:r.querySelector(".acrylicCeiling").checked,acrylicBm:num(r.querySelector(".acrylicBm")),
+    note:r.querySelector(".roomNote")?.value.trim()||"",photo:r.dataset.photo||"",
+    planHours:num(r.querySelector(".planHours")),planDays:num(r.querySelector(".planDays")),
+    actualHours:num(r.querySelector(".actualHours")),actualDays:num(r.querySelector(".actualDays"))
+  }));
+  const specialInputs=specialCards.map(r=>({
+    name:r.querySelector(".sname").value.trim()||"Krb / špeciálna plocha",type:r.querySelector(".stype").value,area:num(r.querySelector(".sarea")),
+    repair:r.querySelector(".sRepair").checked,sanding:r.querySelector(".sSanding").checked,penetration:r.querySelector(".sPenetration").checked,
+    meshGlue:r.querySelector(".sMeshGlue").checked,skimcoat:r.querySelector(".sSkimcoat").checked,putty:r.querySelector(".sPutty").checked,
+    paint:r.querySelector(".sPaint").checked,decor:r.querySelector(".sDecor").checked,coats:parseInt(r.querySelector(".sCoats").value)||1,
+    note:r.querySelector(".roomNote")?.value.trim()||"",photo:r.dataset.photo||"",
+    planHours:num(r.querySelector(".planHours")),planDays:num(r.querySelector(".planDays")),
+    actualHours:num(r.querySelector(".actualHours")),actualDays:num(r.querySelector(".actualDays"))
+  }));
+  return {
+    id:existingId||("JA-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6)),date:new Date().toISOString(),
+    customer:document.getElementById("customer").value.trim()||"Bez mena",
+    customerPhone:document.getElementById("customerPhone").value.trim(),
+    customerEmail:document.getElementById("customerEmail").value.trim(),
+    address:document.getElementById("address").value.trim(),
+    materialBy:document.getElementById("materialBy").value,
+    materialCost:num(document.getElementById("materialCost")),
+    startDate:document.getElementById("startDate").value,
+    estimatedDays:num(document.getElementById("estimatedDays")),
+    paymentType:document.getElementById("paymentType").value,
+    depositPct:num(document.getElementById("depositPct")),
+    status:document.getElementById("status").value,discountPercent:num(document.getElementById("discount")),km:num(document.getElementById("km")),
+    reserveEnabled:document.getElementById("reserve").checked,roomsCount:s.rooms.length+s.specials.length,area:s.walls+s.ceil,final:s.final,
+    summary:{walls:s.walls,ceil:s.ceil,painting:s.painting,prep:s.prep,special:s.special,travel:s.travel,reserve:s.reserve,discount:s.discount,materialCost:s.materialCost||0,final:s.final},
+    roomDetails:s.rooms,specialDetails:s.specials,roomInputs,specialInputs
+  };
 }
-document.getElementById("saveJobTop").onclick=saveJob;document.getElementById("saveBottom").onclick=saveJob;
+
+function saveJob(){
+  const wasEditing=!!editingJobId;
+  const job=currentJobPayload(editingJobId);
+  if(wasEditing){
+    const idx=jobs.findIndex(j=>j.id===editingJobId);
+    if(idx>=0)jobs[idx]=job;else jobs.unshift(job);
+  }else jobs.unshift(job);
+  try{localStorage.setItem("ja_jobs",JSON.stringify(jobs));}
+  catch(e){alert("Úložisko je plné. Fotografie sa ukladajú zmenšené, ale pri veľkom počte zákaziek odporúčam staré zákazky exportovať. Skús odstrániť niektoré fotografie alebo staré zákazky.");return;}
+  editingJobId=job.id;renderJobs();
+  document.getElementById("saveJobTop").textContent="Aktualizovať zákazku";
+  document.getElementById("saveBottom").textContent="Aktualizovať";
+  alert(wasEditing?"Zákazka aktualizovaná.":"Zákazka uložená.");
+}
+document.getElementById("saveJobTop").onclick=saveJob;
+document.getElementById("saveBottom").onclick=saveJob;
+
 function renderJobs(){
- const f=document.getElementById("jobFilter").value,list=document.getElementById("jobsList");list.innerHTML="";
- jobs.filter(j=>f==="Všetky"||j.status===f).forEach(j=>{
-   const el=document.createElement("div");el.className="savedCard";
-   el.innerHTML=`<div class="savedTop"><div><strong>${esc(j.customer)}</strong><div>${j.id}</div><div>${esc(j.address||"")}</div><div>${new Date(j.date).toLocaleDateString("sk-SK")}</div></div><div class="savedPrice">${euro(j.final)}</div></div><hr style="border:0;border-top:1px solid #eee"><b>Miestnosti</b><div>${j.rooms}</div><b>Celková plocha</b><div>${sqm(j.area)}</div><div class="savedBtns"><button class="black">Otvoriť detail</button><button class="green" onclick="window.print()">PDF</button><button class="pink" data-del="${j.id}">Odstrániť</button></div>`;
-   list.appendChild(el);
- });
- list.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{jobs=jobs.filter(j=>j.id!==b.dataset.del);localStorage.setItem("ja_jobs",JSON.stringify(jobs));renderJobs()});
+  const f=document.getElementById("jobFilter").value,list=document.getElementById("jobsList");
+  list.innerHTML="";
+  jobs.filter(j=>f==="Všetky"||j.status===f).forEach(j=>{
+    const el=document.createElement("div");el.className="savedCard";
+    el.innerHTML=`<div class="savedTop"><div><strong>${esc(j.customer)}</strong><div>${esc(j.id)}</div><div>${esc(j.address||"")}</div><div>${new Date(j.date).toLocaleDateString("sk-SK")}</div></div><div class="savedPrice">${euro(j.final)}</div></div>
+      <hr style="border:0;border-top:1px solid #eee">
+      <b>Miestnosti / plochy</b><div>${j.roomsCount??j.rooms??0}</div>
+      <b>Celková plocha</b><div>${sqm(j.area)}</div>
+      <div class="savedBtns">
+        <button class="black" data-detail="${esc(j.id)}">Otvoriť detail</button>
+        <button class="green" data-pdf="${esc(j.id)}">PDF</button>
+        <button class="pink" data-del="${esc(j.id)}">Odstrániť</button>
+      </div>`;
+    list.appendChild(el);
+  });
+  list.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{jobs=jobs.filter(j=>j.id!==b.dataset.del);localStorage.setItem("ja_jobs",JSON.stringify(jobs));renderJobs()});
+  list.querySelectorAll("[data-detail]").forEach(b=>b.onclick=()=>openJobDetail(b.dataset.detail));
+  list.querySelectorAll("[data-pdf]").forEach(b=>b.onclick=()=>{const j=jobs.find(x=>x.id===b.dataset.pdf);if(j)downloadQuotePDF(j)});
 }
 document.getElementById("jobFilter").onchange=renderJobs;
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+function openJobDetail(id){
+  const job=jobs.find(j=>j.id===id);
+  if(!job)return;
+  selectedJobId=id;
+  document.getElementById("detailTitle").textContent=`${job.customer}${job.address?" – "+job.address:""}`;
+  const s=job.summary||{};
+  const rooms=job.roomDetails||[];
+  const specials=job.specialDetails||[];
+  let roomHtmlDetail=rooms.length?rooms.map(r=>`<div class="detailCard">
+      <strong>${esc(r.name)}</strong><div class="miniNote">${esc(r.type||"Miestnosť")}</div>
+      <div class="detailGrid" style="margin-top:10px">
+        <span>Steny</span><b>${sqm(r.walls)} / ${r.wallCoats||"-"}×</b>
+        <span>Strop</span><b>${sqm(r.ceiling)} / ${r.ceilingCoats||"-"}×</b>
+        <span>Penetrácia</span><b>${r.penetrationWall||r.penetrationCeiling?"Áno":"Nie"}</b>
+        <span>Akryl</span><b>${r.acrylicBm>0?r.acrylicBm.toFixed(1)+" bm":"—"}</b>
+        <span>Čas – odhad / skutočnosť</span><b>${(r.planHours||0)} h / ${(r.actualHours||0)} h</b>
+        ${r.note?`<span>Poznámka</span><b>${esc(r.note)}</b>`:""}
+        <span>Cena miestnosti</span><b>${euro(r.total)}</b>
+      </div>${r.photo?`<img class="detailPhoto" src="${r.photo}" alt="Foto ${esc(r.name)}">`:""}</div>`).join(""):`<div class="notice">Táto zákazka bola uložená v staršej verzii aplikácie. Detail miestností v nej nie je uložený, ale súhrn a PDF fungujú.</div>`;
+
+  let specialHtmlDetail=specials.map(r=>`
+    <div class="detailCard">
+      <strong>${esc(r.name)}</strong><div class="miniNote">${esc(r.type||"Špeciálna plocha")}</div>
+      <div class="detailGrid" style="margin-top:10px">
+        <span>Plocha</span><b>${sqm(r.area)}</b>
+        <span>Čas – odhad / skutočnosť</span><b>${(r.planHours||0)} h / ${(r.actualHours||0)} h</b>
+        ${r.note?`<span>Poznámka</span><b>${esc(r.note)}</b>`:""}
+        <span>Cena</span><b>${euro(r.total)}</b>
+      </div>${r.photo?`<img class="detailPhoto" src="${r.photo}" alt="Foto ${esc(r.name)}">`:""}
+    </div>`).join("");
+
+  document.getElementById("detailBody").innerHTML=`
+    <div class="detailCard">
+      <div class="detailGrid">
+        <span>Dátum</span><b>${new Date(job.date).toLocaleDateString("sk-SK")}</b>
+        ${job.customerPhone?`<span>Telefón zákazníka</span><b>${esc(job.customerPhone)}</b>`:""}
+        ${job.customerEmail?`<span>E-mail zákazníka</span><b>${esc(job.customerEmail)}</b>`:""}
+        ${job.startDate?`<span>Termín začatia</span><b>${new Date(job.startDate+"T12:00:00").toLocaleDateString("sk-SK")}</b>`:""}
+        ${(job.estimatedDays||0)>0?`<span>Odhad realizácie</span><b>${job.estimatedDays} pracovných dní</b>`:""}
+        <span>Stav</span><b>${esc(job.status||"")}</b>
+        <span>Celková plocha</span><b>${sqm(job.area)}</b>
+        <span>Maľovanie</span><b>${euro(s.painting||0)}</b>
+        <span>Príprava a ochrana</span><b>${euro(s.prep||0)}</b>
+        <span>Krb / špeciálne plochy</span><b>${euro(s.special||0)}</b>
+        <span>Doprava</span><b>${euro(s.travel||0)}</b>
+        <span>Spotrebný materiál / opotrebenie</span><b>${euro(s.reserve||0)}</b>
+        <span>Zľava</span><b>${euro(s.discount||0)}</b>
+        <span>Konečná cena</span><b class="priceGreen">${euro(job.final)}</b>
+      </div>
+    </div>
+    <h3>Miestnosti</h3>${roomHtmlDetail}
+    ${specials.length?`<h3>Krb / špeciálne plochy</h3>${specialHtmlDetail}`:""}
+  `;
+  document.getElementById("jobDetailModal").classList.remove("hidden");
+}
+document.getElementById("closeDetail").onclick=()=>document.getElementById("jobDetailModal").classList.add("hidden");
+
+function loadJobToCalculator(id){
+  const job=jobs.find(j=>j.id===id);
+  if(!job)return;
+  if(!(job.roomInputs||job.roomDetails||job.specialInputs||job.specialDetails)){alert("Táto staršia zákazka nemá uložené detaily na spätné načítanie.");return;}
+  editingJobId=job.id;
+  document.getElementById("saveJobTop").textContent="Aktualizovať zákazku";document.getElementById("saveBottom").textContent="Aktualizovať";
+  document.getElementById("customer").value=job.customer||"";
+  document.getElementById("customerPhone").value=job.customerPhone||"";
+  document.getElementById("customerEmail").value=job.customerEmail||"";
+  document.getElementById("address").value=job.address||"";
+  document.getElementById("materialBy").value=job.materialBy||"customer";
+  document.getElementById("materialCost").value=job.materialCost||0;
+  document.getElementById("startDate").value=job.startDate||"";
+  document.getElementById("estimatedDays").value=job.estimatedDays||0;
+  document.getElementById("paymentType").value=job.paymentType||"after";
+  document.getElementById("depositPct").value=job.depositPct||30;
+  updateOfferTermsUI();
+  document.getElementById("discount").value=job.discountPercent||0;document.getElementById("km").value=job.km||0;
+  document.getElementById("status").value=job.status||"Návrh";document.getElementById("reserve").checked=job.reserveEnabled!==false;
+  document.getElementById("rooms").innerHTML="";roomSeq=0;specialSeq=0;
+
+  if((job.roomInputs||[]).length){
+    job.roomInputs.slice().reverse().forEach(data=>{
+      const r=addRoom(data.name,false);r.querySelector(".rtype").value=data.type||"Izba";r.querySelector(".rname").value=data.name||"Miestnosť";
+      r.dataset.mode=data.mode||"calc";r.querySelectorAll(".mode button").forEach(x=>x.classList.toggle("active",x.dataset.mode===r.dataset.mode));
+      r.querySelector(".dimFields").classList.toggle("hidden",r.dataset.mode==="direct");r.querySelector(".directFields").classList.toggle("hidden",r.dataset.mode!=="direct");
+      r.querySelector(".len").value=data.len??0;r.querySelector(".wid").value=data.wid??0;r.querySelector(".hei").value=data.hei??2.5;r.querySelector(".directArea").value=data.directArea??0;
+      r.querySelector(".subtract").checked=!!data.subtract;r.querySelector(".doorCount").value=data.doorCount??0;r.querySelector(".terraceCount").value=data.terraceCount??0;r.querySelector(".windowCount").value=data.windowCount??0;r.querySelector(".smallWindowCount").value=data.smallWindowCount??0;
+      r.querySelector(".paintWalls").checked=data.paintWalls!==false;
+      r.querySelector(".openings").classList.toggle("hidden",!data.subtract);r.querySelector(".wallColor").value=data.wallColor||"white";r.querySelector(".wallCoats").value=String(data.wallCoats||2);
+      r.querySelector(".ceiling").checked=data.ceiling!==false;r.querySelector(".ceilingColor").value=data.ceilingColor||"white";r.querySelector(".ceilingCoats").value=String(data.ceilingCoats||1);
+      r.querySelector(".penetrationWall").checked=!!data.penetrationWall;r.querySelector(".penetrationCeiling").checked=!!data.penetrationCeiling;
+      r.querySelector(".repairs").checked=!!data.repairs;r.querySelector(".putty").checked=!!data.putty;r.querySelector(".sanding").checked=!!data.sanding;r.querySelector(".decor").checked=!!data.decor;r.querySelector(".stairs").checked=!!data.stairs;
+      r.querySelector(".acrylicCeiling").checked=!!data.acrylicCeiling;r.querySelector(".acrylicBm").value=data.acrylicBm??0;
+      r.querySelector(".roomNote").value=data.note||"";r.querySelector(".planHours").value=data.planHours||0;r.querySelector(".planDays").value=data.planDays||0;
+      r.querySelector(".actualHours").value=data.actualHours||0;r.querySelector(".actualDays").value=data.actualDays||0;setCardPhoto(r,data.photo||"");
+    });
+  }else{
+    (job.roomDetails||[]).slice().reverse().forEach(data=>{
+      const r=addRoom(data.name,false);r.querySelector(".rtype").value=data.type||"Izba";r.dataset.mode="direct";
+      r.querySelectorAll(".mode button").forEach(x=>x.classList.toggle("active",x.dataset.mode==="direct"));r.querySelector(".dimFields").classList.add("hidden");r.querySelector(".directFields").classList.remove("hidden");
+      r.querySelector(".directArea").value=data.walls||0;r.querySelector(".paintWalls").checked=(data.walls||0)>0;r.querySelector(".wallColor").value=data.wallColor||"white";r.querySelector(".wallCoats").value=String(data.wallCoats||2);
+      r.querySelector(".ceiling").checked=(data.ceiling||0)>0;r.querySelector(".ceilingColor").value=data.ceilingColor||"white";r.querySelector(".ceilingCoats").value=String(data.ceilingCoats||1);
+      if(data.ceiling>0){const d=document.createElement("div");d.innerHTML=`<label>Uložená plocha stropu m²</label><input class="savedCeilingArea" type="number" step=".01" value="${data.ceiling}">`;r.querySelector(".roomPanelRight").appendChild(d);d.querySelector("input").addEventListener("input",calc);}
+      r.querySelector(".penetrationWall").checked=!!data.penetrationWall;r.querySelector(".penetrationCeiling").checked=!!data.penetrationCeiling;r.querySelector(".acrylicCeiling").checked=(data.acrylicBm||0)>0;r.querySelector(".acrylicBm").value=data.acrylicBm||0;
+    });
+  }
+  if((job.specialInputs||[]).length){
+    job.specialInputs.slice().reverse().forEach(data=>{
+      const r=addSpecial(data.name,false);r.querySelector(".stype").value=data.type||"Krb";r.querySelector(".sname").value=data.name||"Krb / špeciálna plocha";r.querySelector(".sarea").value=data.area||0;
+      r.querySelector(".sRepair").checked=!!data.repair;r.querySelector(".sSanding").checked=!!data.sanding;r.querySelector(".sPenetration").checked=!!data.penetration;r.querySelector(".sMeshGlue").checked=!!data.meshGlue;
+      r.querySelector(".sSkimcoat").checked=!!data.skimcoat;r.querySelector(".sPutty").checked=!!data.putty;r.querySelector(".sPaint").checked=!!data.paint;r.querySelector(".sDecor").checked=!!data.decor;r.querySelector(".sCoats").value=String(data.coats||1);
+      r.querySelector(".roomNote").value=data.note||"";r.querySelector(".planHours").value=data.planHours||0;r.querySelector(".planDays").value=data.planDays||0;
+      r.querySelector(".actualHours").value=data.actualHours||0;r.querySelector(".actualDays").value=data.actualDays||0;setCardPhoto(r,data.photo||"");
+    });
+  }else{
+    (job.specialDetails||[]).slice().reverse().forEach(data=>{
+      const r=addSpecial(data.name,false);r.querySelector(".stype").value=data.type||"Krb";r.querySelector(".sarea").value=data.area||0;
+      const labels=(data.works||[]).map(x=>x.label||"").join("|");
+      r.querySelector(".sRepair").checked=/Oprava/.test(labels);r.querySelector(".sSanding").checked=/Brúsenie/.test(labels);r.querySelector(".sPenetration").checked=/Penetrácia/.test(labels);r.querySelector(".sMeshGlue").checked=/Klebrovanie/.test(labels);r.querySelector(".sSkimcoat").checked=/Stierkovanie/.test(labels);r.querySelector(".sPutty").checked=/Tmelenie/.test(labels);r.querySelector(".sPaint").checked=/Maľovanie/.test(labels);r.querySelector(".sDecor").checked=/Dekor/.test(labels);
+      const mm=labels.match(/Maľovanie (\d)×/);if(mm)r.querySelector(".sCoats").value=mm[1];
+    });
+  }
+  document.getElementById("jobDetailModal").classList.add("hidden");showView("calc");syncPills();calc();window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.getElementById("loadJobEdit").onclick=()=>selectedJobId&&loadJobToCalculator(selectedJobId);
+document.getElementById("downloadDetailPdf").onclick=()=>{const j=jobs.find(x=>x.id===selectedJobId);if(j)downloadQuotePDF(j)};
+
+function getCeilingArea(r,L,W){
+  const saved=r.querySelector(".savedCeilingArea");
+  return saved?num(saved):(L*W);
+}
+
+// Patch roomCalc to use explicit saved ceiling area when loading detail.
+const _roomCalcOriginal=roomCalc;
+roomCalc=function(r){
+  const direct=r.dataset.mode==="direct";
+  const L=num(r.querySelector(".len")),W=num(r.querySelector(".wid")),H=num(r.querySelector(".hei"));
+  const perimeter=2*(L+W);
+  let walls=direct?num(r.querySelector(".directArea")):perimeter*H;
+  let ceiling=getCeilingArea(r,L,W);
+  let opening=0;
+  if(r.querySelector(".subtract").checked){
+    opening=num(r.querySelector(".doorCount"))*1.8+num(r.querySelector(".terraceCount"))*4.0+num(r.querySelector(".windowCount"))*1.8+num(r.querySelector(".smallWindowCount"))*0.60;
+    walls=Math.max(0,walls-opening);
+  }
+  const paintWalls=r.querySelector(".paintWalls").checked;
+  const wallCoats=paintWalls?(parseInt(r.querySelector(".wallCoats").value)||1):0;
+  const wallRate=r.querySelector(".wallColor").value==="white"?prices.wallWhitePerCoat:prices.wallColorPerCoat;
+  const pricedWalls=paintWalls?walls:0;
+  let paint=pricedWalls*wallCoats*wallRate;
+  let ceilingCoats=0;
+  if(r.querySelector(".ceiling").checked){
+    ceilingCoats=parseInt(r.querySelector(".ceilingCoats").value)||1;
+    const ceilingRate=r.querySelector(".ceilingColor").value==="white"?prices.ceilingWhitePerCoat:prices.ceilingColorPerCoat;
+    paint+=ceiling*ceilingCoats*ceilingRate;
+  }else ceiling=0;
+  if(paintWalls && r.querySelector(".penetrationWall").checked) paint+=walls*prices.penetrationWall;
+  if(r.querySelector(".penetrationCeiling").checked && ceiling>0) paint+=ceiling*prices.penetrationCeiling;
+  if(paintWalls && r.querySelector(".repairs").checked) paint+=walls*prices.repairs;
+  if(paintWalls && r.querySelector(".putty").checked) paint+=walls*prices.putty;
+  if(paintWalls && r.querySelector(".sanding").checked) paint+=walls*prices.sanding;
+  if(paintWalls && r.querySelector(".decor").checked) paint+=walls*prices.decor;
+  if(paintWalls && r.querySelector(".stairs").checked) paint+=walls*prices.stairsExtra;
+  if(r.querySelector(".acrylicCeiling").checked) paint+=num(r.querySelector(".acrylicBm"))*prices.acrylicCeilingPerM;
+
+  let prep=0;
+  if(r.querySelector(".pFloor").checked) prep+=(L*W)*prices.covering;
+  if(r.querySelector(".pSkirting").checked) prep+=Math.max(0,perimeter-num(r.querySelector(".doorCount"))*.9-num(r.querySelector(".terraceCount"))*1.8)*prices.skirting;
+  const pcs=(c,k)=>{if(r.querySelector("."+c).checked) prep+=num(r.querySelector("."+c+"Count"))*prices[k]};
+  pcs("pDoorFrame","doorFrame");pcs("pFullDoor","fullDoor");pcs("pWindow","window");pcs("pSill","sill");
+  pcs("pAc","acCover");pcs("pPicture","picture");pcs("pTv","tv");pcs("pRadiator","radiator");pcs("pSocket","socket");
+  ["pCeilLight","pWallLight"].forEach(c=>{if(r.querySelector("."+c).checked){const a=r.querySelector("."+c+"Action").value;prep+=num(r.querySelector("."+c+"Count"))*(a==="remove"?prices.lightRemove:prices.lightCover)}});
+  if(r.querySelector(".pKitchen").checked) prep+=prices.kitchen;
+  if(r.querySelector(".pFurniture").checked) prep+=prices.furniture;
+  if(r.querySelector(".pOther").checked) prep+=num(r.querySelector(".pOtherPrice"));
+
+  r.querySelector(".rWalls").textContent=sqm(paintWalls?walls:0);r.querySelector(".rCeil").textContent=sqm(ceiling);
+  r.querySelector(".rOpen").textContent=sqm(opening);r.querySelector(".rPaint").textContent=euro(paint);
+  r.querySelector(".rPrep").textContent=euro(prep);r.querySelector(".rPrice").textContent=euro(paint+prep);
+  const paintedWalls=paintWalls?walls:0;
+  return {kind:"room",name:r.querySelector(".rname").value.trim()||"Miestnosť",type:r.querySelector(".rtype").value,
+    walls:paintedWalls,ceiling,opening,paint,prep,total:paint+prep,wallCoats,ceilingCoats,
+    paintWalls,wallColor:r.querySelector(".wallColor").value,ceilingColor:r.querySelector(".ceilingColor").value,
+    penetrationWall:r.querySelector(".penetrationWall").checked,penetrationCeiling:r.querySelector(".penetrationCeiling").checked,
+    acrylicBm:r.querySelector(".acrylicCeiling").checked?num(r.querySelector(".acrylicBm")):0};
+};
+
+
+function pdfWrap(ctx,text,x,y,maxWidth,lineHeight,maxLines=3){
+  const words=String(text||"").split(/\s+/);
+  let line="",lines=[];
+  for(const word of words){
+    const test=line?line+" "+word:word;
+    if(ctx.measureText(test).width>maxWidth && line){lines.push(line);line=word;}
+    else line=test;
+  }
+  if(line)lines.push(line);
+  if(lines.length>maxLines){
+    lines=lines.slice(0,maxLines);
+    let last=lines[maxLines-1];
+    while(ctx.measureText(last+"…").width>maxWidth && last.length>2) last=last.slice(0,-1);
+    lines[maxLines-1]=last+"…";
+  }
+  lines.forEach((ln,i)=>ctx.fillText(ln,x,y+i*lineHeight));
+  return y+lines.length*lineHeight;
+}
+function offerScopeText(r){
+  const parts=[];
+  if((r.walls||0)>0) parts.push(`steny ${nfmt(r.walls)} m² / ${r.wallCoats||1}×`);
+  if((r.ceiling||0)>0) parts.push(`strop ${nfmt(r.ceiling)} m² / ${r.ceilingCoats||1}×`);
+  if(r.penetrationWall||r.penetrationCeiling) parts.push("penetrácia");
+  if(r.acrylicBm>0) parts.push(`akryl ${nfmt(r.acrylicBm)} bm`);
+  if(r.repairs)parts.push("opravy");
+  if(r.putty)parts.push("tmelenie");
+  if(r.sanding)parts.push("brúsenie");
+  if(r.decor)parts.push("dekor / San Marco");
+  return parts.join(" • ");
+}
+
+function drawMoney(ctx,label,value,y,bold=false){
+  ctx.font=(bold?"bold ":"")+"34px Arial";
+  ctx.fillStyle="#222";ctx.textAlign="left";ctx.fillText(label,95,y);
+  ctx.textAlign="right";ctx.fillText(euro(value),1145,y);
+  return y+54;
+}
+async function downloadQuotePDF(job){
+  const canvas=document.createElement("canvas");canvas.width=1240;canvas.height=1754;
+  const ctx=canvas.getContext("2d");
+  ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);
+  const left=80,right=1160,width=right-left;
+  const logo=document.querySelector(".logoWrap img");
+  try{ctx.drawImage(logo,left,40,280,156)}catch(e){}
+
+  ctx.fillStyle="#111";ctx.textAlign="right";ctx.font="bold 43px Arial";ctx.fillText("CENOVÁ PONUKA",right,90);
+  ctx.font="21px Arial";ctx.fillStyle="#777";ctx.fillText(job.id||"",right,126);
+
+  let y=235;
+  ctx.textAlign="left";ctx.fillStyle="#222";ctx.font="bold 23px Arial";ctx.fillText("DODÁVATEĽ",left,y);
+  ctx.font="22px Arial";y+=31;ctx.fillText("JA Painting – Jaroslav Antal",left,y);
+  ctx.fillStyle="#666";ctx.font="19px Arial";
+  if(settings.phone){y+=27;ctx.fillText("Tel.: "+settings.phone,left,y)}
+  if(settings.email){y+=27;ctx.fillText("E-mail: "+settings.email,left,y)}
+
+  let cy=235;
+  ctx.fillStyle="#222";ctx.font="bold 23px Arial";ctx.fillText("ZÁKAZNÍK",650,cy);
+  ctx.font="22px Arial";cy+=31;ctx.fillText(job.customer||"",650,cy);
+  ctx.fillStyle="#666";ctx.font="19px Arial";
+  if(job.address){cy+=27;ctx.fillText(job.address,650,cy)}
+  if(job.customerPhone){cy+=27;ctx.fillText("Tel.: "+job.customerPhone,650,cy)}
+  if(job.customerEmail){cy+=27;ctx.fillText("E-mail: "+job.customerEmail,650,cy)}
+
+  y=Math.max(y,cy)+40;
+  const d=new Date(job.date), valid=new Date(d);valid.setDate(valid.getDate()+(settings.validity||14));
+  ctx.fillStyle="#666";ctx.font="19px Arial";
+  ctx.fillText("Dátum vystavenia: "+d.toLocaleDateString("sk-SK"),left,y);
+  ctx.fillText("Platnosť ponuky do: "+valid.toLocaleDateString("sk-SK"),650,y);
+  y+=36;
+  if(job.startDate){
+    ctx.fillText("Predpokladaný termín: "+new Date(job.startDate+"T12:00:00").toLocaleDateString("sk-SK"),left,y);
+    if(job.estimatedDays)ctx.fillText("Odhad realizácie: "+job.estimatedDays+" pracovných dní",650,y);
+    y+=32;
+  }
+
+  ctx.strokeStyle="#c7a565";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();
+  y+=42;
+  ctx.fillStyle="#222";ctx.font="bold 25px Arial";ctx.fillText("Rozsah prác",left,y);y+=32;
+  const rooms=job.roomDetails||[],specials=job.specialDetails||[],s=job.summary||{};
+  ctx.font="18px Arial";ctx.fillStyle="#666";
+  ctx.fillText(`Fyzická plocha stien: ${nfmt(s.walls||0)} m²   •   stropov: ${nfmt(s.ceil||0)} m²`,left,y);y+=31;
+
+  // Table with price per room
+  const colName=left+10,colScope=320,colPrice=right-10;
+  ctx.fillStyle="#f5f1e8";ctx.fillRect(left,y-22,width,33);
+  ctx.fillStyle="#222";ctx.font="bold 18px Arial";ctx.textAlign="left";ctx.fillText("Miestnosť / plocha",colName,y);
+  ctx.fillText("Rozsah",colScope,y);ctx.textAlign="right";ctx.fillText("Cena",colPrice,y);y+=30;
+
+  function drawOfferRow(name,scope,price){
+    const start=y;
+    ctx.textAlign="left";ctx.fillStyle="#222";ctx.font="bold 16px Arial";
+    const nameEnd=pdfWrap(ctx,name,colName,start,230,20,2);
+    ctx.fillStyle="#555";ctx.font="15.5px Arial";
+    const scopeEnd=pdfWrap(ctx,scope,colScope,start,650,20,3);
+    ctx.textAlign="right";ctx.fillStyle="#222";ctx.font="bold 16px Arial";ctx.fillText(euro(price||0),colPrice,start);
+    y=Math.max(nameEnd,scopeEnd,start+20)+5;
+    ctx.strokeStyle="#ece8df";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,y-2);ctx.lineTo(right,y-2);ctx.stroke();
+  }
+  for(const r of rooms){ if(y>1115)break; drawOfferRow(r.name||"Miestnosť",offerScopeText(r),r.total||0); }
+  for(const r of specials){
+    if(y>1115)break;
+    const works=(r.works||[]).map(w=>w.label).join(", ");
+    drawOfferRow(r.name||"Krb / špeciálna plocha",`${nfmt(r.area||0)} m² • ${works}`,r.total||0);
+  }
+
+  y+=20;ctx.strokeStyle="#c7a565";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();
+  y+=38;ctx.textAlign="left";ctx.fillStyle="#222";ctx.font="bold 24px Arial";ctx.fillText("Cena",left,y);y+=36;
+
+  // Room/special prices above are base service prices; internal reserve remains customer-invisible.
+  const labor=(s.painting||0)+(s.prep||0)+(s.special||0)+(s.reserve||0);
+  if(labor>0)y=drawMoney(ctx,"Maliarske a súvisiace práce",labor,y);
+  if((job.materialBy==="provider") && (s.materialCost||job.materialCost||0)>0)
+    y=drawMoney(ctx,"Materiál",s.materialCost||job.materialCost,y);
+  if((s.travel||0)>0)y=drawMoney(ctx,"Doprava",s.travel,y);
+  if((s.discount||0)>0)y=drawMoney(ctx,"Zľava",-s.discount,y);
+
+  ctx.strokeStyle="#ddd";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,y+2);ctx.lineTo(right,y+2);ctx.stroke();
+  y+=62;ctx.font="bold 42px Arial";ctx.fillStyle="#2f8738";ctx.textAlign="left";ctx.fillText("CELKOVÁ CENA",left,y);
+  ctx.textAlign="right";ctx.fillText(euro(job.final),right,y);
+
+  // Conditions
+  let py=Math.max(y+62,1450);
+  ctx.textAlign="left";ctx.fillStyle="#222";ctx.font="bold 20px Arial";ctx.fillText("Podmienky",left,py);py+=29;
+  ctx.fillStyle="#555";ctx.font="17px Arial";
+  const materialText=job.materialBy==="provider"?"Materiál zabezpečuje JA Painting.":"Materiál zabezpečuje zákazník.";
+  ctx.fillText(materialText,left,py);py+=24;
+  let pay="Platba: po dokončení a odovzdaní prác.";
+  if(job.paymentType==="deposit")pay=`Platba: záloha ${job.depositPct||30} % + doplatok po dokončení a odovzdaní prác.`;
+  if(job.paymentType==="agreement")pay="Platba: podľa dohody.";
+  ctx.fillText(pay,left,py);py+=24;
+  if(settings.quoteNote)py=pdfWrap(ctx,settings.quoteNote,left,py,width,22,2);
+  py=pdfWrap(ctx,"Cena je platná pre uvedený rozsah prác. Práce naviac budú odsúhlasené pred realizáciou.",left,py+5,width,22,2);
+
+  ctx.fillStyle="#777";ctx.font="17px Arial";
+  ctx.fillText("JA Painting – Jaroslav Antal | Interiérové maľovanie",left,1660);
+
+  await canvasToPdf(canvas,`JA_Painting_Cenova_ponuka_${safeFile(job.customer||job.id)}.pdf`);
+}
+
+function safeFile(s){return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9_-]+/g,"_").replace(/^_+|_+$/g,"")}
+async function canvasToPdf(canvas,filename){
+  const data=canvas.toDataURL("image/jpeg",0.93).split(",")[1];
+  const img=Uint8Array.from(atob(data),c=>c.charCodeAt(0));
+  const enc=new TextEncoder();let chunks=[],offsets=[0],pos=0;
+  const push=x=>{let b=typeof x==="string"?enc.encode(x):x;chunks.push(b);pos+=b.length};
+  const obj=(n,body)=>{offsets[n]=pos;push(`${n} 0 obj\n${body}\nendobj\n`)};
+  push("%PDF-1.4\n");
+  obj(1,"<< /Type /Catalog /Pages 2 0 R >>");
+  obj(2,"<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
+  obj(3,"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>");
+  offsets[4]=pos;push(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${canvas.width} /Height ${canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${img.length} >>\nstream\n`);push(img);push("\nendstream\nendobj\n");
+  const stream="q\n595 0 0 842 0 0 cm\n/Im0 Do\nQ\n";
+  obj(5,`<< /Length ${stream.length} >>\nstream\n${stream}endstream`);
+  const xref=pos;push("xref\n0 6\n0000000000 65535 f \n");
+  for(let i=1;i<=5;i++)push(String(offsets[i]).padStart(10,"0")+" 00000 n \n");
+  push(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
+  const blob=new Blob(chunks,{type:"application/pdf"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+}
 
 function renderPriceFields(){
- const c=document.getElementById("priceFields");c.innerHTML="";
- Object.keys(PRICE_LABELS).forEach(k=>{const d=document.createElement("div");d.className="priceField";d.innerHTML=`<label>${PRICE_LABELS[k]}</label><input data-price="${k}" type="number" step=".01" value="${prices[k]}">`;c.appendChild(d)});
+  const c=document.getElementById("priceFields");c.innerHTML="";
+  Object.keys(PRICE_LABELS).forEach(k=>{const d=document.createElement("div");d.className="priceField";d.innerHTML=`<label>${PRICE_LABELS[k]}</label><input data-price="${k}" type="number" step=".01" value="${prices[k]}">`;c.appendChild(d)});
 }
-document.getElementById("savePrices").onclick=()=>{document.querySelectorAll("[data-price]").forEach(i=>prices[i.dataset.price]=num(i));localStorage.setItem("ja_prices",JSON.stringify(prices));calc();alert("Cenník uložený.")};
+
+document.getElementById("applyMarketPrices").onclick=()=>{
+  if(!confirm("Načítať odporúčané stredné ceny 2026? Tvoje aktuálne hodnoty v cenníku sa prepíšu, ale môžeš ich ešte pred uložením ručne upraviť."))return;
+  prices={...prices,...MARKET_PRICES_2026};
+  renderPriceFields();
+  calc();
+};
+
+document.getElementById("savePrices").onclick=()=>{document.querySelectorAll("[data-price]").forEach(i=>prices[i.dataset.price]=num(i));localStorage.setItem("ja_prices_v2",JSON.stringify(prices));calc();alert("Cenník uložený.")};
 
 function loadSettings(){
- document.getElementById("setKm").value=settings.km;document.getElementById("setMin").value=settings.min;document.getElementById("setSmall").value=settings.small;document.getElementById("setReserve").value=settings.reserve;document.getElementById("reserveLabel").textContent=settings.reserve+" %";
+  document.getElementById("setKm").value=settings.km;
+  document.getElementById("setMin").value=settings.min;
+  document.getElementById("setSmall").value=settings.small;
+  document.getElementById("setReserve").value=settings.reserve;
+  document.getElementById("setValidity").value=settings.validity||14;
+  document.getElementById("setPhone").value=settings.phone||"";
+  document.getElementById("setEmail").value=settings.email||"";
+  document.getElementById("setQuoteNote").value=settings.quoteNote||"Materiál zabezpečuje zákazník. Termín realizácie podľa dohody.";
+  document.getElementById("reserveLabel").textContent=settings.reserve+" %";
 }
-document.getElementById("saveSettings").onclick=()=>{settings={km:num(document.getElementById("setKm")),min:num(document.getElementById("setMin")),small:num(document.getElementById("setSmall")),reserve:num(document.getElementById("setReserve"))};localStorage.setItem("ja_settings",JSON.stringify(settings));loadSettings();calc();alert("Nastavenia uložené.")};
+document.getElementById("saveSettings").onclick=()=>{
+  settings={
+    km:num(document.getElementById("setKm")),
+    min:num(document.getElementById("setMin")),
+    small:num(document.getElementById("setSmall")),
+    reserve:num(document.getElementById("setReserve")),
+    validity:Math.max(1,num(document.getElementById("setValidity"))||14),
+    phone:document.getElementById("setPhone").value.trim(),
+    email:document.getElementById("setEmail").value.trim(),
+    quoteNote:document.getElementById("setQuoteNote").value.trim()
+  };
+  localStorage.setItem("ja_settings",JSON.stringify(settings));loadSettings();calc();alert("Nastavenia uložené.");
+};
 document.getElementById("exportJobs").onclick=()=>{const blob=new Blob([JSON.stringify(jobs,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="JA_Painting_zakazky.json";a.click();URL.revokeObjectURL(a.href)};
 document.getElementById("clearJobs").onclick=()=>{if(confirm("Naozaj vymazať všetky zákazky?")){jobs=[];localStorage.setItem("ja_jobs","[]");renderJobs()}};
 
 function newJob(){
- document.getElementById("customer").value="";document.getElementById("address").value="";document.getElementById("customerType").value="0";document.getElementById("discount").value=0;document.getElementById("km").value=0;document.getElementById("status").value="Návrh";document.getElementById("reserve").checked=true;
- document.getElementById("rooms").innerHTML="";roomSeq=0;addRoom("Izba 1");syncPills();calc();
+  editingJobId=null;
+  document.getElementById("saveJobTop").textContent="Uložiť zákazku";document.getElementById("saveBottom").textContent="Uložiť";
+  document.getElementById("customer").value="";document.getElementById("customerPhone").value="";document.getElementById("customerEmail").value="";
+  document.getElementById("address").value="";document.getElementById("materialBy").value="customer";document.getElementById("materialCost").value=0;
+  document.getElementById("startDate").value="";document.getElementById("estimatedDays").value=0;document.getElementById("paymentType").value="after";
+  document.getElementById("depositPct").value=30;updateOfferTermsUI();document.getElementById("customerType").value="0";document.getElementById("discount").value=0;document.getElementById("km").value=0;document.getElementById("status").value="Návrh";document.getElementById("reserve").checked=true;
+  document.getElementById("rooms").innerHTML="";roomSeq=0;specialSeq=0;
+  addRoom("Izba 1",false);syncPills();calc();
 }
-document.getElementById("newJob").onclick=newJob;document.getElementById("addRoom").onclick=()=>addRoom(`Izba ${roomSeq+1}`);
+
+function updateOfferTermsUI(){
+  document.getElementById("materialCostWrap").classList.toggle("hidden",document.getElementById("materialBy").value!=="provider");
+  document.getElementById("depositWrap").classList.toggle("hidden",document.getElementById("paymentType").value!=="deposit");
+  calc();
+}
+document.getElementById("materialBy").addEventListener("change",updateOfferTermsUI);
+document.getElementById("paymentType").addEventListener("change",updateOfferTermsUI);
+document.getElementById("startDate").addEventListener("change",calc);
+document.getElementById("materialCost").addEventListener("input",calc);
+
+document.getElementById("newJob").onclick=newJob;
+document.getElementById("addRoom").onclick=()=>addRoom(`Izba ${roomSeq+1}`,true);
+document.getElementById("addSpecial").onclick=()=>addSpecial(`Krb / plocha ${specialSeq+1}`,true);
 
 renderPriceFields();loadSettings();renderJobs();newJob();
 </script>
