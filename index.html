@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#101010">
-<title>JA Painting Pro V2.9 FIELD UPDATE 2026-08-24</title>
+<title>JA Painting Pro V3.4.1 DISCOUNT DISPLAY 2026-08-25</title>
 
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -531,8 +531,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
 /* ===== V2.9 FIELD UPDATE 2026-08-24 ===== */
 .mixedWallBox{margin-top:8px;padding:9px;border:1px dashed #d8cfbb;border-radius:10px;background:#fffaf0}
 .mixedWallFields{margin-top:7px}
-/* V3.2 robust UI fix: checkbox itself controls visibility even if JS event fails */
-.mixedWallBox:has(.mixedWalls:checked) .mixedWallFields.hidden{display:block!important}
 .specialMeasureGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
 .specialMeasureGrid label{font-size:12px}
 .specialMeasureGrid input,.specialMeasureGrid select{padding:10px;font-size:14px}
@@ -698,7 +696,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
     <div class="summaryRow"><span>Krb / špeciálne plochy</span><b id="sumSpecial">0,00 €</b></div>
     <div class="summaryRow"><span>Doprava</span><b id="sumTravel">0,00 €</b></div>
     <div class="summaryRow"><span>Spotrebný materiál / opotrebenie</span><b id="sumReserve">0,00 €</b></div>
-    <div class="summaryRow"><span>Zľava</span><b id="sumDiscount">0,00 €</b></div>
+    <div class="summaryRow"><span id="sumDiscountLabel">Zľava (0 %)</span><b id="sumDiscount">0,00 €</b></div>
     <div class="summaryRow"><span>Konečná cena</span><b class="priceGreen" id="sumFinal">50,00 €</b></div>
   </div>
 </section>
@@ -1012,17 +1010,8 @@ function roomHtml(id,name){
           <div class="mixedWallBox">
             <label class="miniToggle"><input class="mixedWalls" type="checkbox"> Kombinácia biela + farebná stena</label>
             <div class="mixedWallFields hidden">
-              <div class="fieldGrid two">
-                <div>
-                  <label>Farebná plocha stien m²</label>
-                  <input class="colorWallArea" type="number" min="0" step=".01" value="0">
-                </div>
-                <div>
-                  <label>Biela plocha stien m² <span class="muted">(automaticky)</span></label>
-                  <input class="whiteWallAreaDisplay" type="text" value="0,00" readonly>
-                </div>
-              </div>
-              <div class="miniNote mixedWallHint">Zadaj iba farebnú plochu. Biela plocha sa automaticky vypočíta ako zvyšok celkovej plochy stien.</div>
+              <label>Farebná časť stien m² <span class="muted">(zvyšok sa počíta ako biela)</span></label>
+              <input class="colorWallArea" type="number" min="0" step=".01" value="0">
             </div>
           </div>
         </div>
@@ -1394,7 +1383,7 @@ function calc(){
   document.getElementById("sumSpecial").textContent=euro(special);
   document.getElementById("sumTravel").textContent=euro(travel);
   document.getElementById("sumReserve").textContent=euro(reserve);
-  document.getElementById("sumDiscount").textContent=euro(discount);
+  document.getElementById("sumDiscount").textContent=euro(discount);const _sdl=document.getElementById("sumDiscountLabel");if(_sdl)_sdl.textContent=`Zľava (${nfmt(disc)} %)`;
   document.getElementById("sumFinal").textContent=euro(final);
   document.getElementById("bottomPrice").textContent=euro(final);
 
@@ -1538,7 +1527,7 @@ function openJobDetail(id){
         <span>Krb / špeciálne plochy</span><b>${euro(s.special||0)}</b>
         <span>Doprava</span><b>${euro(s.travel||0)}</b>
         <span>Spotrebný materiál / opotrebenie</span><b>${euro(s.reserve||0)}</b>
-        <span>Zľava</span><b>${euro(s.discount||0)}</b>
+        <span>Zľava (${nfmt(job.discountPercent||0)} %)</span><b>${euro(s.discount||0)}</b>
         <span>Konečná cena</span><b class="priceGreen">${euro(job.final)}</b>
       </div>
     </div>
@@ -1699,18 +1688,8 @@ function pdfWrap(ctx,text,x,y,maxWidth,lineHeight,maxLines=3){
 }
 function offerScopeText(r){
   const parts=[];
-  if((r.walls||0)>0){
-    if(r.mixedWalls){
-      parts.push(`steny ${nfmt(r.walls)} m² (biela ${nfmt(r.whiteWallArea||0)} m² / ${r.wallCoats||1}×, farebná ${nfmt(r.colorWallArea||0)} m² / ${r.wallCoats||1}×)`);
-    }else{
-      const wallType=r.wallColor==='color'?'farebná':'biela';
-      parts.push(`steny ${nfmt(r.walls)} m² (${wallType} / ${r.wallCoats||1}×)`);
-    }
-  }
-  if((r.ceiling||0)>0){
-    const ceilType=r.ceilingColor==='color'?'farebný':'biely';
-    parts.push(`strop ${nfmt(r.ceiling)} m² (${ceilType} / ${r.ceilingCoats||1}×)`);
-  }
+  if((r.walls||0)>0) parts.push(`steny ${nfmt(r.walls)} m² / ${r.wallCoats||1}×`);
+  if((r.ceiling||0)>0) parts.push(`strop ${nfmt(r.ceiling)} m² / ${r.ceilingCoats||1}×`);
   if(r.penetrationWall||r.penetrationCeiling) parts.push("penetrácia");
   if(r.acrylicBm>0) parts.push(`akryl ${nfmt(r.acrylicBm)} bm`);
   if(r.repairs)parts.push("opravy");
@@ -1802,7 +1781,7 @@ async function downloadQuotePDF(job){
   if((job.materialBy==="provider") && (s.materialCost||job.materialCost||0)>0)
     y=drawMoney(ctx,"Materiál",s.materialCost||job.materialCost,y);
   if((s.travel||0)>0)y=drawMoney(ctx,"Doprava",s.travel,y);
-  if((s.discount||0)>0)y=drawMoney(ctx,"Zľava",-s.discount,y);
+  if((s.discount||0)>0)y=drawMoney(ctx,`Zľava ${nfmt(job.discountPercent||0)} %`,-s.discount,y);
 
   ctx.strokeStyle="#ddd";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,y+2);ctx.lineTo(right,y+2);ctx.stroke();
   y+=62;ctx.font="bold 42px Arial";ctx.fillStyle="#2f8738";ctx.textAlign="left";ctx.fillText("CELKOVÁ CENA",left,y);
@@ -1931,12 +1910,7 @@ const _bindRoomV28=bindRoom;
 bindRoom=function(r){
   _bindRoomV28(r);
   const mixed=r.querySelector('.mixedWalls'),mf=r.querySelector('.mixedWallFields');
-  if(mixed&&mf){
-    const sync=()=>{mf.classList.toggle('hidden',!mixed.checked);calc();};
-    mixed.addEventListener('change',sync);
-    mixed.addEventListener('input',sync);
-    sync();
-  }
+  if(mixed&&mf){const sync=()=>mf.classList.toggle('hidden',!mixed.checked);mixed.addEventListener('change',sync);sync();}
 };
 const _bindSpecialV28=bindSpecial;
 bindSpecial=function(r){
@@ -1974,10 +1948,6 @@ roomCalc=function(r){
   const mixed=paintWalls&&!!r.querySelector('.mixedWalls')?.checked;
   const colorArea=mixed?Math.min(walls,num(r.querySelector('.colorWallArea'))):((paintWalls&&r.querySelector('.wallColor').value==='color')?walls:0);
   const whiteArea=paintWalls?Math.max(0,walls-colorArea):0;
-  const whiteDisplay=r.querySelector('.whiteWallAreaDisplay');
-  if(whiteDisplay) whiteDisplay.value=nfmt(whiteArea);
-  const colorInput=r.querySelector('.colorWallArea');
-  if(colorInput) colorInput.max=String(Math.max(0,walls));
   const whiteWallCost=whiteArea*wallCoats*prices.wallWhitePerCoat;
   const colorWallCost=colorArea*wallCoats*prices.wallColorPerCoat;
   let paint=whiteWallCost+colorWallCost;
@@ -2016,13 +1986,13 @@ calc=function(){
   const walls=rs.reduce((a,b)=>a+b.walls,0),ceil=rs.reduce((a,b)=>a+b.ceiling,0),painting=rs.reduce((a,b)=>a+b.paint,0),prep=rs.reduce((a,b)=>a+b.prep,0),special=ss.reduce((a,b)=>a+b.price,0);
   const days=Math.max(1,num(document.getElementById('estimatedDays'))||1);const travel=num(document.getElementById('km'))*2*days*settings.km;
   let base=painting+prep+special+travel;const reserve=document.getElementById('reserve').checked?base*(settings.reserve/100):0;base+=reserve;const disc=Math.min(100,num(document.getElementById('discount')));const discount=base*(disc/100);const materialCost=document.getElementById('materialBy').value==='provider'?num(document.getElementById('materialCost')):0;const final=Math.max(settings.min,base-discount+materialCost);
-  document.getElementById('sumWalls').textContent=sqm(walls);document.getElementById('sumCeil').textContent=sqm(ceil);document.getElementById('sumArea').textContent=sqm(walls+ceil);document.getElementById('sumPainting').textContent=euro(painting);document.getElementById('sumPrep').textContent=euro(prep);document.getElementById('sumSpecial').textContent=euro(special);document.getElementById('sumTravel').textContent=euro(travel);document.getElementById('sumReserve').textContent=euro(reserve);document.getElementById('sumDiscount').textContent=euro(discount);document.getElementById('sumFinal').textContent=euro(final);document.getElementById('bottomPrice').textContent=euro(final);
+  document.getElementById('sumWalls').textContent=sqm(walls);document.getElementById('sumCeil').textContent=sqm(ceil);document.getElementById('sumArea').textContent=sqm(walls+ceil);document.getElementById('sumPainting').textContent=euro(painting);document.getElementById('sumPrep').textContent=euro(prep);document.getElementById('sumSpecial').textContent=euro(special);document.getElementById('sumTravel').textContent=euro(travel);document.getElementById('sumReserve').textContent=euro(reserve);document.getElementById('sumDiscount').textContent=euro(discount);const _sdl=document.getElementById('sumDiscountLabel');if(_sdl)_sdl.textContent=`Zľava (${nfmt(disc)} %)`;document.getElementById('sumFinal').textContent=euro(final);document.getElementById('bottomPrice').textContent=euro(final);
   return {walls,ceil,painting,prep,special,travel,reserve,discount,materialCost,final,rooms:rs,specials:ss,travelDays:days};
 };
 
 const _payloadV28=currentJobPayload;
 currentJobPayload=function(existingId=null){
-  const job=_payloadV28(existingId),s=calc();job.appVersion='3.1';job.travelMode='oneWayPerDay';job.summary={...job.summary,...s};job.final=s.final;job.area=s.walls+s.ceil;
+  const job=_payloadV28(existingId),s=calc();job.appVersion='2.9';job.travelMode='oneWayPerDay';job.summary={...job.summary,...s};job.final=s.final;job.area=s.walls+s.ceil;
   const cards=[...document.querySelectorAll('[data-kind="room"]')];
   job.roomInputs=cards.map(r=>({name:r.querySelector('.rname').value.trim()||'Miestnosť',type:r.querySelector('.rtype').value,mode:r.dataset.mode||'calc',len:num(r.querySelector('.len')),wid:num(r.querySelector('.wid')),hei:num(r.querySelector('.hei')),directArea:num(r.querySelector('.directArea')),subtract:r.querySelector('.subtract').checked,doorCount:num(r.querySelector('.doorCount')),terraceCount:num(r.querySelector('.terraceCount')),windowCount:num(r.querySelector('.windowCount')),smallWindowCount:num(r.querySelector('.smallWindowCount')),paintWalls:r.querySelector('.paintWalls').checked,wallColor:r.querySelector('.wallColor').value,wallCoats:parseInt(r.querySelector('.wallCoats').value)||1,mixedWalls:!!r.querySelector('.mixedWalls')?.checked,colorWallArea:num(r.querySelector('.colorWallArea')),ceiling:r.querySelector('.ceiling').checked,ceilingColor:r.querySelector('.ceilingColor').value,ceilingCoats:parseInt(r.querySelector('.ceilingCoats').value)||1,penetrationWall:r.querySelector('.penetrationWall').checked,penetrationCeiling:r.querySelector('.penetrationCeiling').checked,repairs:r.querySelector('.repairs').checked,putty:r.querySelector('.putty').checked,sanding:r.querySelector('.sanding').checked,decor:r.querySelector('.decor').checked,stairs:r.querySelector('.stairs').checked,acrylicCeiling:r.querySelector('.acrylicCeiling').checked,acrylicBm:num(r.querySelector('.acrylicBm')),prep:{floor:r.querySelector('.pFloor').checked,skirting:r.querySelector('.pSkirting').checked,doorFrame:r.querySelector('.pDoorFrame').checked,doorFrameCount:num(r.querySelector('.pDoorFrameCount')),fullDoor:r.querySelector('.pFullDoor').checked,fullDoorCount:num(r.querySelector('.pFullDoorCount')),window:r.querySelector('.pWindow').checked,windowCount:num(r.querySelector('.pWindowCount')),sill:r.querySelector('.pSill').checked,sillCount:num(r.querySelector('.pSillCount')),ceilLight:r.querySelector('.pCeilLight').checked,ceilLightAction:r.querySelector('.pCeilLightAction').value,ceilLightCount:num(r.querySelector('.pCeilLightCount')),wallLight:r.querySelector('.pWallLight').checked,wallLightAction:r.querySelector('.pWallLightAction').value,wallLightCount:num(r.querySelector('.pWallLightCount')),ac:r.querySelector('.pAc').checked,acCount:num(r.querySelector('.pAcCount')),picture:r.querySelector('.pPicture').checked,pictureCount:num(r.querySelector('.pPictureCount')),tv:r.querySelector('.pTv').checked,tvCount:num(r.querySelector('.pTvCount')),radiator:r.querySelector('.pRadiator').checked,radiatorCount:num(r.querySelector('.pRadiatorCount')),socket:r.querySelector('.pSocket').checked,socketCount:num(r.querySelector('.pSocketCount')),kitchen:r.querySelector('.pKitchen').checked,furnitureCover:r.querySelector('.pFurnitureCover').checked,furnitureMove:r.querySelector('.pFurnitureMove').checked,holes:r.querySelector('.pHoles').checked,holesCount:num(r.querySelector('.pHolesCount')),fullCleaning:r.querySelector('.pFullCleaning').checked,other:r.querySelector('.pOther').checked,otherText:r.querySelector('.pOtherText').value,otherPrice:num(r.querySelector('.pOtherPrice'))},note:r.querySelector('.roomNote')?.value.trim()||'',photo:r.dataset.photo||'',planHours:num(r.querySelector('.planHours')),planDays:num(r.querySelector('.planDays')),actualHours:num(r.querySelector('.actualHours')),actualDays:num(r.querySelector('.actualDays'))}));
   job.specialInputs=[...document.querySelectorAll('[data-kind="special"]')].map(r=>({name:r.querySelector('.sname').value.trim()||'Krb / špeciálna plocha',type:r.querySelector('.stype').value,areaMode:r.querySelector('.sAreaMode')?.value||'manual',scope:r.querySelector('.sScope')?.value||'whole',width:num(r.querySelector('.sWidth')),height:num(r.querySelector('.sHeight')),depth:num(r.querySelector('.sDepth')),area:num(r.querySelector('.sarea')),repair:r.querySelector('.sRepair').checked,sanding:r.querySelector('.sSanding').checked,penetration:r.querySelector('.sPenetration').checked,meshGlue:r.querySelector('.sMeshGlue').checked,skimcoat:r.querySelector('.sSkimcoat').checked,putty:r.querySelector('.sPutty').checked,paint:r.querySelector('.sPaint').checked,decor:r.querySelector('.sDecor').checked,coats:parseInt(r.querySelector('.sCoats').value)||1,note:r.querySelector('.roomNote')?.value.trim()||'',photo:r.dataset.photo||'',planHours:num(r.querySelector('.planHours')),planDays:num(r.querySelector('.planDays')),actualHours:num(r.querySelector('.actualHours')),actualDays:num(r.querySelector('.actualDays'))}));
@@ -2047,7 +2017,7 @@ function aggregateInvoiceItems(job){
   return out;
 }
 
-// V3.3: PDF shows every room with m² + price and mixed white/color wall split. Every billing category remains printed, including 0.00 €.
+// Keep the existing PDF layout, but every billing category is printed, including 0.00 €.
 downloadQuotePDF=async function(job){
   const canvas=document.createElement('canvas');canvas.width=1240;canvas.height=1754;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,1240,1754);const left=70,right=1170,width=right-left;const logo=document.querySelector('.logoWrap img');try{ctx.drawImage(logo,left,30,250,140)}catch(e){}
   ctx.fillStyle='#111';ctx.textAlign='right';ctx.font='bold 40px Arial';ctx.fillText('CENOVÁ PONUKA',right,78);ctx.font='18px Arial';ctx.fillStyle='#777';ctx.fillText(job.id||'',right,110);
@@ -2055,88 +2025,14 @@ downloadQuotePDF=async function(job){
   let cy=190;ctx.fillStyle='#222';ctx.font='bold 19px Arial';ctx.fillText('ZÁKAZNÍK',650,cy);ctx.font='18px Arial';ctx.fillText(job.customer||'',650,cy+26);ctx.fillStyle='#666';ctx.font='16px Arial';cy+=50;if(job.address){ctx.fillText(job.address,650,cy);cy+=21}if(job.customerPhone){ctx.fillText('Tel.: '+job.customerPhone,650,cy);cy+=21}if(job.customerEmail){ctx.fillText('E-mail: '+job.customerEmail,650,cy);cy+=21}
   y=Math.max(ly,cy)+20;const d=new Date(job.date),valid=new Date(d);valid.setDate(valid.getDate()+(settings.validity||14));ctx.font='15px Arial';ctx.fillStyle='#666';ctx.fillText('Dátum vystavenia: '+d.toLocaleDateString('sk-SK'),left,y);ctx.fillText('Platnosť do: '+valid.toLocaleDateString('sk-SK'),650,y);y+=24;ctx.fillText('Odhad realizácie: '+(job.estimatedDays||0)+' pracovných dní',650,y);y+=25
   ctx.strokeStyle='#c7a565';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();y+=30;ctx.fillStyle='#222';ctx.font='bold 19px Arial';ctx.fillText('Rozsah prác',left,y);y+=25;ctx.font='14px Arial';ctx.fillStyle='#666';ctx.fillText(`Steny: ${nfmt(job.summary?.walls||0)} m²  •  Stropy: ${nfmt(job.summary?.ceil||0)} m²  •  Doprava: ${nfmt(job.km||0)} km jedna cesta × 2 × ${job.estimatedDays||1} dní`,left,y);y+=25;
-  const rooms=job.roomDetails||[],specials=job.specialDetails||[];ctx.fillStyle='#f5f1e8';ctx.fillRect(left,y-16,width,25);ctx.fillStyle='#222';ctx.font='bold 14px Arial';ctx.fillText('Miestnosť / plocha',left+8,y);ctx.fillText('Rozsah a m²',300,y);ctx.textAlign='right';ctx.fillText('Cena',right-8,y);ctx.textAlign='left';y+=24;
-  const row=(name,scope,price)=>{
-    const rowY=y;
-    ctx.fillStyle='#222';ctx.font='bold 13px Arial';ctx.textAlign='left';
-    const nameEnd=pdfWrap(ctx,String(name),left+8,rowY,245,16,2);
-    ctx.fillStyle='#555';ctx.font='12px Arial';
-    const scopeEnd=pdfWrap(ctx,String(scope),300,rowY,690,15,3);
-    ctx.textAlign='right';ctx.fillStyle='#222';ctx.font='bold 13px Arial';ctx.fillText(euro(price||0),right-8,rowY);ctx.textAlign='left';
-    y=Math.max(nameEnd,scopeEnd,rowY+16)+4;
-    ctx.strokeStyle='#ece8df';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,y-2);ctx.lineTo(right,y-2);ctx.stroke();
-  };
-  rooms.forEach(r=>row(r.name||'Miestnosť',offerScopeText(r),r.total||0));specials.forEach(r=>row(r.name||'Krb / plocha',`${nfmt(r.area||0)} m² • ${(r.works||[]).map(w=>w.label).join(', ')}`,r.total||0));
+  const rooms=job.roomDetails||[],specials=job.specialDetails||[];ctx.fillStyle='#f5f1e8';ctx.fillRect(left,y-16,width,25);ctx.fillStyle='#222';ctx.font='bold 14px Arial';ctx.fillText('Miestnosť / plocha',left+8,y);ctx.fillText('Rozsah',310,y);ctx.textAlign='right';ctx.fillText('Cena',right-8,y);ctx.textAlign='left';y+=22;
+  const row=(name,scope,price)=>{ctx.fillStyle='#222';ctx.font='bold 13px Arial';ctx.fillText(String(name).slice(0,28),left+8,y);ctx.fillStyle='#555';ctx.font='12px Arial';ctx.fillText(String(scope).slice(0,76),310,y);ctx.textAlign='right';ctx.fillStyle='#222';ctx.font='bold 13px Arial';ctx.fillText(euro(price||0),right-8,y);ctx.textAlign='left';y+=19;};
+  rooms.slice(0,8).forEach(r=>row(r.name||'Miestnosť',offerScopeText(r),r.total||0));specials.slice(0,4).forEach(r=>row(r.name||'Krb / plocha',`${nfmt(r.area||0)} m² • ${(r.works||[]).map(w=>w.label).join(', ')}`,r.total||0));
   y+=10;ctx.strokeStyle='#c7a565';ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();y+=25;ctx.fillStyle='#222';ctx.font='bold 18px Arial';ctx.fillText('Prehľad účtovaných položiek',left,y);y+=20;
-  const a=aggregateInvoiceItems(job);const items=[['Biela – steny',a.wallWhite],['Farebná – steny',a.wallColor],['Biela – strop',a.ceilWhite],['Farebná – strop',a.ceilColor],['Penetrácia stien',a.penWall],['Penetrácia stropu',a.penCeil],['Opravy stien',a.repairs],['Tmelenie',a.putty],['Brúsenie',a.sanding],['Dekor / San Marco',a.decor],['Akrylovanie',a.acrylic],['Zakrytie podlahy',a.floor],['Olepenie soklov',a.skirting],['Olepenie rámov dverí',a.doorFrame],['Zakrytie celých dverí',a.fullDoor],['Zakrytie okien',a.window],['Zakrytie parapetov',a.sill],['Svetlá',a.lights],['Klimatizácia',a.ac],['Obrazy / dekorácie',a.picture],['TV / nástenné prvky',a.tv],['Radiátory',a.radiator],['Zásuvky / vypínače',a.socket],['Kuchynská linka',a.kitchen],['Zakrytie nábytku',a.furnitureCover],['Presúvanie nábytku',a.furnitureMove],['Vyspravenie dier',a.holes],['Základné upratanie vlastných vecí',0],['Kompletné upratanie',a.fullCleaning],['Krb – oprava',a.sRepair],['Krb – brúsenie',a.sSanding],['Krb – penetrácia',a.sPenetration],['Krb – klebrovanie / armovanie',a.sMeshGlue],['Krb – stierkovanie',a.sSkimcoat],['Krb – tmelenie',a.sPutty],['Krb – maľovanie',a.sPaint],['Krb – dekor / San Marco',a.sDecor],['Doprava',job.summary?.travel||0],['Materiál',job.materialBy==='provider'?(job.summary?.materialCost||job.materialCost||0):0],['Zľava',-(job.summary?.discount||0)]];
+  const a=aggregateInvoiceItems(job);const items=[['Biela – steny',a.wallWhite],['Farebná – steny',a.wallColor],['Biela – strop',a.ceilWhite],['Farebná – strop',a.ceilColor],['Penetrácia stien',a.penWall],['Penetrácia stropu',a.penCeil],['Opravy stien',a.repairs],['Tmelenie',a.putty],['Brúsenie',a.sanding],['Dekor / San Marco',a.decor],['Akrylovanie',a.acrylic],['Zakrytie podlahy',a.floor],['Olepenie soklov',a.skirting],['Olepenie rámov dverí',a.doorFrame],['Zakrytie celých dverí',a.fullDoor],['Zakrytie okien',a.window],['Zakrytie parapetov',a.sill],['Svetlá',a.lights],['Klimatizácia',a.ac],['Obrazy / dekorácie',a.picture],['TV / nástenné prvky',a.tv],['Radiátory',a.radiator],['Zásuvky / vypínače',a.socket],['Kuchynská linka',a.kitchen],['Zakrytie nábytku',a.furnitureCover],['Presúvanie nábytku',a.furnitureMove],['Vyspravenie dier',a.holes],['Základné upratanie vlastných vecí',0],['Kompletné upratanie',a.fullCleaning],['Krb – oprava',a.sRepair],['Krb – brúsenie',a.sSanding],['Krb – penetrácia',a.sPenetration],['Krb – klebrovanie / armovanie',a.sMeshGlue],['Krb – stierkovanie',a.sSkimcoat],['Krb – tmelenie',a.sPutty],['Krb – maľovanie',a.sPaint],['Krb – dekor / San Marco',a.sDecor],['Doprava',job.summary?.travel||0],['Materiál',job.materialBy==='provider'?(job.summary?.materialCost||job.materialCost||0):0],[`Zľava ${nfmt(job.discountPercent||0)} %`,-(job.summary?.discount||0)]];
   const half=Math.ceil(items.length/2),colW=535;ctx.font='12px Arial';for(let i=0;i<half;i++){const yy=y+i*18;const draw=(it,x)=>{if(!it)return;ctx.textAlign='left';ctx.fillStyle='#555';ctx.fillText(it[0],x,yy);ctx.textAlign='right';ctx.fillStyle='#222';ctx.fillText(euro(it[1]),x+colW-5,yy);};draw(items[i],left);draw(items[i+half],left+565);}y+=half*18+18;
   ctx.strokeStyle='#ddd';ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();y+=42;ctx.font='bold 34px Arial';ctx.fillStyle='#2f8738';ctx.textAlign='left';ctx.fillText('CELKOVÁ CENA',left,y);ctx.textAlign='right';ctx.fillText(euro(job.final),right,y);
   let py=Math.max(y+48,1500);ctx.textAlign='left';ctx.fillStyle='#222';ctx.font='bold 17px Arial';ctx.fillText('Podmienky',left,py);py+=23;ctx.fillStyle='#555';ctx.font='14px Arial';ctx.fillText(job.materialBy==='provider'?'Materiál zabezpečuje JA Painting.':'Materiál zabezpečuje zákazník.',left,py);py+=20;let pay='Platba: po dokončení a odovzdaní prác.';if(job.paymentType==='deposit')pay=`Platba: záloha ${job.depositPct||30} % + doplatok.`;if(job.paymentType==='agreement')pay='Platba: podľa dohody.';ctx.fillText(pay,left,py);py+=20;if(settings.quoteNote)py=pdfWrap(ctx,settings.quoteNote,left,py,width,18,2);ctx.fillStyle='#777';ctx.font='14px Arial';ctx.fillText('JA Painting – Jaroslav Antal | Interiérové maľovanie',left,1690);await canvasToPdf(canvas,`JA_Painting_Cenova_ponuka_${safeFile(job.customer||job.id)}.pdf`);
-};
-
-
-
-// ===== V3.4 TWO-PAGE OFFER / INVOICE LAYOUT =====
-async function canvasToPdfPages(canvases,filename){
-  const enc=new TextEncoder();let chunks=[],offsets=[0],pos=0;
-  const push=x=>{let b=typeof x==='string'?enc.encode(x):x;chunks.push(b);pos+=b.length};
-  const obj=(n,body)=>{offsets[n]=pos;push(`${n} 0 obj\n${body}\nendobj\n`)};
-  const imgs=canvases.map(c=>{const data=c.toDataURL('image/jpeg',0.93).split(',')[1];return {canvas:c,bytes:Uint8Array.from(atob(data),ch=>ch.charCodeAt(0))}});
-  const pageCount=imgs.length;
-  const pageObjs=[],imgObjs=[],contentObjs=[];
-  let next=3;
-  for(let i=0;i<pageCount;i++){pageObjs.push(next++);imgObjs.push(next++);contentObjs.push(next++);}
-  push('%PDF-1.4\n');
-  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
-  obj(2,`<< /Type /Pages /Kids [${pageObjs.map(n=>n+' 0 R').join(' ')}] /Count ${pageCount} >>`);
-  for(let i=0;i<pageCount;i++){
-    const po=pageObjs[i],io=imgObjs[i],co=contentObjs[i],im=imgs[i];
-    obj(po,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /XObject << /Im${i} ${io} 0 R >> >> /Contents ${co} 0 R >>`);
-    offsets[io]=pos;push(`${io} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${im.canvas.width} /Height ${im.canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${im.bytes.length} >>\nstream\n`);push(im.bytes);push('\nendstream\nendobj\n');
-    const stream=`q\n595 0 0 842 0 0 cm\n/Im${i} Do\nQ\n`;
-    obj(co,`<< /Length ${stream.length} >>\nstream\n${stream}endstream`);
-  }
-  const size=next,xref=pos;push(`xref\n0 ${size}\n0000000000 65535 f \n`);
-  for(let i=1;i<size;i++)push(String(offsets[i]).padStart(10,'0')+' 00000 n \n');
-  push(`trailer\n<< /Size ${size} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
-  const blob=new Blob(chunks,{type:'application/pdf'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
-}
-
-function drawQuoteHeader(ctx,job,pageLabel=''){
-  const left=70,right=1170,width=right-left,logo=document.querySelector('.logoWrap img');
-  ctx.fillStyle='#fff';ctx.fillRect(0,0,1240,1754);try{ctx.drawImage(logo,left,30,250,140)}catch(e){}
-  ctx.fillStyle='#111';ctx.textAlign='right';ctx.font='bold 40px Arial';ctx.fillText('CENOVÁ PONUKA',right,78);ctx.font='18px Arial';ctx.fillStyle='#777';ctx.fillText(job.id||'',right,110);
-  if(pageLabel){ctx.font='14px Arial';ctx.fillText(pageLabel,right,136);}
-  let y=190;ctx.textAlign='left';ctx.fillStyle='#222';ctx.font='bold 19px Arial';ctx.fillText('DODÁVATEĽ',left,y);ctx.font='18px Arial';ctx.fillText('JA Painting – Jaroslav Antal',left,y+26);ctx.fillStyle='#666';ctx.font='16px Arial';let ly=y+50;if(settings.phone){ctx.fillText('Tel.: '+settings.phone,left,ly);ly+=21}if(settings.email){ctx.fillText('E-mail: '+settings.email,left,ly);ly+=21}
-  let cy=190;ctx.fillStyle='#222';ctx.font='bold 19px Arial';ctx.fillText('ZÁKAZNÍK',650,cy);ctx.font='18px Arial';ctx.fillText(job.customer||'',650,cy+26);ctx.fillStyle='#666';ctx.font='16px Arial';cy+=50;if(job.address){ctx.fillText(job.address,650,cy);cy+=21}if(job.customerPhone){ctx.fillText('Tel.: '+job.customerPhone,650,cy);cy+=21}if(job.customerEmail){ctx.fillText('E-mail: '+job.customerEmail,650,cy);cy+=21}
-  y=Math.max(ly,cy)+20;const d=new Date(job.date),valid=new Date(d);valid.setDate(valid.getDate()+(settings.validity||14));ctx.font='15px Arial';ctx.fillStyle='#666';ctx.fillText('Dátum vystavenia: '+d.toLocaleDateString('sk-SK'),left,y);ctx.fillText('Platnosť do: '+valid.toLocaleDateString('sk-SK'),650,y);y+=24;ctx.fillText('Odhad realizácie: '+(job.estimatedDays||0)+' pracovných dní',650,y);y+=25;
-  return {left,right,width,y};
-}
-
-downloadQuotePDF=async function(job){
-  const c1=document.createElement('canvas');c1.width=1240;c1.height=1754;const p1=c1.getContext('2d');
-  const h1=drawQuoteHeader(p1,job,'Strana 1 / 2');const left=h1.left,right=h1.right,width=h1.width;let y=h1.y;
-  p1.strokeStyle='#c7a565';p1.lineWidth=2;p1.beginPath();p1.moveTo(left,y);p1.lineTo(right,y);p1.stroke();y+=30;p1.fillStyle='#222';p1.font='bold 21px Arial';p1.fillText('Miestnosti, plochy a cena',left,y);y+=28;
-  p1.font='14px Arial';p1.fillStyle='#666';p1.fillText(`Steny spolu: ${nfmt(job.summary?.walls||0)} m²  •  Stropy spolu: ${nfmt(job.summary?.ceil||0)} m²`,left,y);y+=28;
-  p1.fillStyle='#f5f1e8';p1.fillRect(left,y-17,width,28);p1.fillStyle='#222';p1.font='bold 14px Arial';p1.fillText('Miestnosť / plocha',left+8,y);p1.fillText('Rozsah a m²',300,y);p1.textAlign='right';p1.fillText('Cena',right-8,y);p1.textAlign='left';y+=27;
-  const row=(name,scope,price)=>{const rowY=y;p1.fillStyle='#222';p1.font='bold 13px Arial';const nameEnd=pdfWrap(p1,String(name),left+8,rowY,245,16,2);p1.fillStyle='#555';p1.font='12px Arial';const scopeEnd=pdfWrap(p1,String(scope),300,rowY,690,15,3);p1.textAlign='right';p1.fillStyle='#222';p1.font='bold 13px Arial';p1.fillText(euro(price||0),right-8,rowY);p1.textAlign='left';y=Math.max(nameEnd,scopeEnd,rowY+16)+5;p1.strokeStyle='#ece8df';p1.lineWidth=1;p1.beginPath();p1.moveTo(left,y-2);p1.lineTo(right,y-2);p1.stroke();};
-  (job.roomDetails||[]).forEach(r=>row(r.name||'Miestnosť',offerScopeText(r),r.total||0));
-  (job.specialDetails||[]).forEach(r=>row(r.name||'Krb / plocha',`${nfmt(r.area||0)} m² • ${(r.works||[]).map(w=>w.label).join(', ')}`,r.total||0));
-  y+=18;p1.strokeStyle='#c7a565';p1.beginPath();p1.moveTo(left,y);p1.lineTo(right,y);p1.stroke();y+=28;p1.fillStyle='#222';p1.font='bold 19px Arial';p1.fillText('Cena',left,y);y+=27;
-  const summaryLines=[['Maliarske a súvisiace práce',(job.summary?.painting||0)+(job.summary?.prep||0)+(job.summary?.special||0)],['Materiál',job.materialBy==='provider'?(job.summary?.materialCost||job.materialCost||0):0],['Doprava',job.summary?.travel||0],['Zľava',-(job.summary?.discount||0)]];
-  p1.font='18px Arial';for(const [lab,val] of summaryLines){p1.textAlign='left';p1.fillStyle='#333';p1.fillText(lab,left+14,y);p1.textAlign='right';p1.fillText(euro(val),right-14,y);y+=34;}
-  y+=10;p1.strokeStyle='#ddd';p1.beginPath();p1.moveTo(left,y);p1.lineTo(right,y);p1.stroke();y+=45;p1.font='bold 36px Arial';p1.fillStyle='#2f8738';p1.textAlign='left';p1.fillText('CELKOVÁ CENA',left,y);p1.textAlign='right';p1.fillText(euro(job.final),right,y);
-  let py=Math.max(y+58,1410);p1.textAlign='left';p1.fillStyle='#222';p1.font='bold 17px Arial';p1.fillText('Podmienky',left,py);py+=23;p1.fillStyle='#555';p1.font='14px Arial';p1.fillText(job.materialBy==='provider'?'Materiál zabezpečuje JA Painting.':'Materiál zabezpečuje zákazník.',left,py);py+=20;let pay='Platba: po dokončení a odovzdaní prác.';if(job.paymentType==='deposit')pay=`Platba: záloha ${job.depositPct||30} % + doplatok.`;if(job.paymentType==='agreement')pay='Platba: podľa dohody.';p1.fillText(pay,left,py);py+=20;if(settings.quoteNote)py=pdfWrap(p1,settings.quoteNote,left,py,width,18,2);p1.fillStyle='#777';p1.font='14px Arial';p1.fillText('JA Painting – Jaroslav Antal | Interiérové maľovanie',left,1690);
-
-  const c2=document.createElement('canvas');c2.width=1240;c2.height=1754;const p2=c2.getContext('2d');
-  const h2=drawQuoteHeader(p2,job,'Strana 2 / 2');let y2=h2.y;
-  p2.strokeStyle='#c7a565';p2.lineWidth=2;p2.beginPath();p2.moveTo(left,y2);p2.lineTo(right,y2);p2.stroke();y2+=30;p2.fillStyle='#222';p2.font='bold 22px Arial';p2.fillText('Detailný rozsah prác',left,y2);y2+=30;
-  p2.font='14px Arial';p2.fillStyle='#666';p2.fillText('Prehľad zobrazuje všetky položky – aj tie, ktoré neboli účtované (0,00 €).',left,y2);y2+=30;
-  const a=aggregateInvoiceItems(job);const items=[['Biela – steny',a.wallWhite],['Farebná – steny',a.wallColor],['Biela – strop',a.ceilWhite],['Farebná – strop',a.ceilColor],['Penetrácia stien',a.penWall],['Penetrácia stropu',a.penCeil],['Opravy stien',a.repairs],['Tmelenie',a.putty],['Brúsenie',a.sanding],['Dekor / San Marco',a.decor],['Akrylovanie',a.acrylic],['Zakrytie podlahy',a.floor],['Olepenie soklov',a.skirting],['Olepenie rámov dverí',a.doorFrame],['Zakrytie celých dverí',a.fullDoor],['Zakrytie okien',a.window],['Zakrytie parapetov',a.sill],['Svetlá',a.lights],['Klimatizácia',a.ac],['Obrazy / dekorácie',a.picture],['TV / nástenné prvky',a.tv],['Radiátory',a.radiator],['Zásuvky / vypínače',a.socket],['Kuchynská linka',a.kitchen],['Zakrytie nábytku',a.furnitureCover],['Presúvanie nábytku',a.furnitureMove],['Vyspravenie dier',a.holes],['Základné upratanie vlastných vecí',0],['Kompletné upratanie',a.fullCleaning],['Krb – oprava',a.sRepair],['Krb – brúsenie',a.sSanding],['Krb – penetrácia',a.sPenetration],['Krb – klebrovanie / armovanie',a.sMeshGlue],['Krb – stierkovanie',a.sSkimcoat],['Krb – tmelenie',a.sPutty],['Krb – maľovanie',a.sPaint],['Krb – dekor / San Marco',a.sDecor],['Doprava',job.summary?.travel||0],['Materiál',job.materialBy==='provider'?(job.summary?.materialCost||job.materialCost||0):0],['Zľava',-(job.summary?.discount||0)]];
-  const half=Math.ceil(items.length/2),colW=535;p2.font='13px Arial';for(let i=0;i<half;i++){const yy=y2+i*24;const draw=(it,x)=>{if(!it)return;p2.textAlign='left';p2.fillStyle='#555';p2.fillText(it[0],x,yy);p2.textAlign='right';p2.fillStyle='#222';p2.font='bold 13px Arial';p2.fillText(euro(it[1]),x+colW-5,yy);p2.font='13px Arial';};draw(items[i],left);draw(items[i+half],left+565);}y2+=half*24+25;
-  p2.strokeStyle='#ddd';p2.beginPath();p2.moveTo(left,y2);p2.lineTo(right,y2);p2.stroke();y2+=45;p2.font='bold 34px Arial';p2.fillStyle='#2f8738';p2.textAlign='left';p2.fillText('CELKOVÁ CENA',left,y2);p2.textAlign='right';p2.fillText(euro(job.final),right,y2);
-  p2.fillStyle='#777';p2.font='14px Arial';p2.textAlign='left';p2.fillText('JA Painting – Jaroslav Antal | Interiérové maľovanie',left,1690);
-  await canvasToPdfPages([c1,c2],`JA_Painting_Cenova_ponuka_${safeFile(job.customer||job.id)}.pdf`);
 };
 
 renderPriceFields();loadSettings();renderJobs();newJob();
