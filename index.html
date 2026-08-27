@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#101010">
-<title>JA Painting Pro V3.4.1 DISCOUNT DISPLAY 2026-08-25</title>
+<title>JA Painting Pro V3.4.2 FULL RESTORE 2026-08-27</title>
 
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -1906,12 +1906,48 @@ Object.assign(PRICE_LABELS,{
 });
 prices={...DEFAULT_PRICES,...prices};
 
-const _bindRoomV28=bindRoom;
 bindRoom=function(r){
-  _bindRoomV28(r);
-  const mixed=r.querySelector('.mixedWalls'),mf=r.querySelector('.mixedWallFields');
-  if(mixed&&mf){const sync=()=>mf.classList.toggle('hidden',!mixed.checked);mixed.addEventListener('change',sync);sync();}
+  bindCommon(r);
+  bindDocumentation(r);
+
+  const subtract=r.querySelector(".subtract");
+  if(subtract){
+    subtract.onchange=e=>{
+      const openings=r.querySelector(".openings");
+      if(openings)openings.classList.toggle("hidden",!e.target.checked);
+      calc();
+    };
+  }
+
+  const prepToggle=r.querySelector(".prepToggle");
+  if(prepToggle){
+    prepToggle.onclick=()=>{
+      const b=r.querySelector(".prepBox");
+      if(!b)return;
+      b.classList.toggle("open");
+      prepToggle.textContent=b.classList.contains("open")?"Zbaliť":"Rozbaliť";
+    };
+  }
+
+  r.querySelectorAll(".mode button").forEach(b=>b.onclick=()=>{
+    r.querySelectorAll(".mode button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    const direct=b.dataset.mode==="direct";
+    r.dataset.mode=direct?"direct":"calc";
+    r.querySelector(".dimFields")?.classList.toggle("hidden",direct);
+    r.querySelector(".directFields")?.classList.toggle("hidden",!direct);
+    calc();
+  });
+
+  const mixed=r.querySelector(".mixedWalls");
+  const mf=r.querySelector(".mixedWallFields");
+  if(mixed&&mf){
+    const syncMixed=()=>mf.classList.toggle("hidden",!mixed.checked);
+    mixed.addEventListener("change",syncMixed);
+    syncMixed();
+  }
 };
+
 const _bindSpecialV28=bindSpecial;
 bindSpecial=function(r){
   _bindSpecialV28(r);
@@ -1999,15 +2035,255 @@ currentJobPayload=function(existingId=null){
   return job;
 };
 
-const _loadV28=loadJobToCalculator;
+// ===== V3.4.2 FULL JOB RESTORE =====
+// One clean loader: restores header, all rooms, prep, mixed colours,
+// notes/photos, fireplace/special surfaces and legacy jobs where possible.
 loadJobToCalculator=function(id){
-  const job=jobs.find(j=>j.id===id);if(!job)return;_loadV28(id);
-  // Old V2.8 stored km as round trip. Convert only for editing legacy jobs.
-  if(job.travelMode!=='oneWayPerDay'&&job.km){document.getElementById('km').value=(Number(job.km)||0)/2;}
-  const roomData=(job.roomInputs||[]).slice();
-  [...document.querySelectorAll('[data-kind="room"]')].forEach(r=>{const name=r.querySelector('.rname').value;let i=roomData.findIndex(x=>(x.name||'Miestnosť')===name);if(i<0)i=0;const d=roomData.splice(i,1)[0]||{};r.querySelector('.mixedWalls').checked=!!d.mixedWalls;r.querySelector('.colorWallArea').value=d.colorWallArea||0;r.querySelector('.mixedWallFields').classList.toggle('hidden',!d.mixedWalls);const p=d.prep||{};const set=(c,v)=>{const el=r.querySelector('.'+c);if(el)el.checked=!!v};set('pFloor',p.floor);set('pSkirting',p.skirting);set('pDoorFrame',p.doorFrame);r.querySelector('.pDoorFrameCount').value=p.doorFrameCount??1;set('pFullDoor',p.fullDoor);r.querySelector('.pFullDoorCount').value=p.fullDoorCount??1;set('pWindow',p.window);r.querySelector('.pWindowCount').value=p.windowCount??1;set('pSill',p.sill);r.querySelector('.pSillCount').value=p.sillCount??1;set('pCeilLight',p.ceilLight);r.querySelector('.pCeilLightAction').value=p.ceilLightAction||'cover';r.querySelector('.pCeilLightCount').value=p.ceilLightCount??1;set('pWallLight',p.wallLight);r.querySelector('.pWallLightAction').value=p.wallLightAction||'cover';r.querySelector('.pWallLightCount').value=p.wallLightCount??1;set('pAc',p.ac);r.querySelector('.pAcCount').value=p.acCount??1;set('pPicture',p.picture);r.querySelector('.pPictureCount').value=p.pictureCount??1;set('pTv',p.tv);r.querySelector('.pTvCount').value=p.tvCount??1;set('pRadiator',p.radiator);r.querySelector('.pRadiatorCount').value=p.radiatorCount??1;set('pSocket',p.socket);r.querySelector('.pSocketCount').value=p.socketCount??1;set('pKitchen',p.kitchen);set('pFurnitureCover',p.furnitureCover);set('pFurnitureMove',p.furnitureMove);set('pHoles',p.holes);r.querySelector('.pHolesCount').value=p.holesCount??1;set('pFullCleaning',p.fullCleaning);set('pOther',p.other);r.querySelector('.pOtherText').value=p.otherText||'';r.querySelector('.pOtherPrice').value=p.otherPrice||0;});
-  const spData=(job.specialInputs||[]).slice();[...document.querySelectorAll('[data-kind="special"]')].forEach(r=>{const name=r.querySelector('.sname').value;let i=spData.findIndex(x=>(x.name||'Krb / špeciálna plocha')===name);if(i<0)i=0;const d=spData.splice(i,1)[0]||{};r.querySelector('.sAreaMode').value=d.areaMode||'manual';r.querySelector('.sScope').value=d.scope||'whole';r.querySelector('.sWidth').value=d.width||0;r.querySelector('.sHeight').value=d.height||0;r.querySelector('.sDepth').value=d.depth||0;r.querySelector('.sarea').value=d.area||0;const man=r.querySelector('.sAreaMode').value==='manual';r.querySelector('.specialDimensions').classList.toggle('hidden',man);r.querySelector('.specialManual').classList.toggle('hidden',!man);});
+  const job=jobs.find(j=>j.id===id);
+  if(!job)return;
+
+  const hasDetails=(job.roomInputs?.length||job.roomDetails?.length||job.specialInputs?.length||job.specialDetails?.length);
+  if(!hasDetails){
+    alert("Táto staršia zákazka nemá uložené detaily na spätné načítanie.");
+    return;
+  }
+
+  const byId=id=>document.getElementById(id);
+  const setVal=(root,sel,val)=>{
+    const el=root.querySelector(sel);
+    if(el)el.value=(val??"");
+  };
+  const setChk=(root,sel,val)=>{
+    const el=root.querySelector(sel);
+    if(el)el.checked=!!val;
+  };
+
+  editingJobId=job.id;
+  byId("saveJobTop").textContent="Aktualizovať zákazku";
+  byId("saveBottom").textContent="Aktualizovať";
+
+  byId("customer").value=job.customer||"";
+  byId("customerPhone").value=job.customerPhone||"";
+  byId("customerEmail").value=job.customerEmail||"";
+  byId("address").value=job.address||"";
+  byId("materialBy").value=job.materialBy||"customer";
+  byId("materialCost").value=job.materialCost||0;
+  byId("startDate").value=job.startDate||"";
+  byId("estimatedDays").value=job.estimatedDays||0;
+  byId("paymentType").value=job.paymentType||"after";
+  byId("depositPct").value=job.depositPct||30;
+  byId("discount").value=job.discountPercent||0;
+  byId("status").value=job.status||"Návrh";
+  byId("reserve").checked=job.reserveEnabled!==false;
+
+  const kmStored=Number(job.km)||0;
+  byId("km").value=(job.travelMode==="oneWayPerDay" || !kmStored) ? kmStored : kmStored/2;
+
+  const dp=String(Math.round(Number(job.discountPercent)||0));
+  if(["0","10","15","20"].includes(dp)) byId("customerType").value=dp;
+  else byId("customerType").value="0";
+
+  updateOfferTermsUI();
+  syncPills();
+
+  byId("rooms").innerHTML="";
+  roomSeq=0;
+  specialSeq=0;
+
+  const roomInputs=Array.isArray(job.roomInputs)?job.roomInputs:[];
+  const roomDetails=Array.isArray(job.roomDetails)?job.roomDetails:[];
+
+  if(roomInputs.length){
+    roomInputs.forEach(data=>{
+      const r=addRoom(data.name||"Miestnosť",false);
+
+      setVal(r,".rtype",data.type||"Izba");
+      setVal(r,".rname",data.name||"Miestnosť");
+      updateTitle(r);
+
+      r.dataset.mode=data.mode||"calc";
+      r.querySelectorAll(".mode button").forEach(x=>x.classList.toggle("active",x.dataset.mode===r.dataset.mode));
+      r.querySelector(".dimFields")?.classList.toggle("hidden",r.dataset.mode==="direct");
+      r.querySelector(".directFields")?.classList.toggle("hidden",r.dataset.mode!=="direct");
+
+      setVal(r,".len",data.len??0);
+      setVal(r,".wid",data.wid??0);
+      setVal(r,".hei",data.hei??2.5);
+      setVal(r,".directArea",data.directArea??0);
+
+      setChk(r,".subtract",data.subtract);
+      setVal(r,".doorCount",data.doorCount??0);
+      setVal(r,".terraceCount",data.terraceCount??0);
+      setVal(r,".windowCount",data.windowCount??0);
+      setVal(r,".smallWindowCount",data.smallWindowCount??0);
+      r.querySelector(".openings")?.classList.toggle("hidden",!data.subtract);
+
+      setChk(r,".paintWalls",data.paintWalls!==false);
+      setVal(r,".wallColor",data.wallColor||"white");
+      setVal(r,".wallCoats",String(data.wallCoats||2));
+
+      setChk(r,".mixedWalls",data.mixedWalls);
+      setVal(r,".colorWallArea",data.colorWallArea??0);
+      r.querySelector(".mixedWallFields")?.classList.toggle("hidden",!data.mixedWalls);
+
+      setChk(r,".ceiling",data.ceiling!==false);
+      setVal(r,".ceilingColor",data.ceilingColor||"white");
+      setVal(r,".ceilingCoats",String(data.ceilingCoats||1));
+
+      setChk(r,".penetrationWall",data.penetrationWall);
+      setChk(r,".penetrationCeiling",data.penetrationCeiling);
+      setChk(r,".repairs",data.repairs);
+      setChk(r,".putty",data.putty);
+      setChk(r,".sanding",data.sanding);
+      setChk(r,".decor",data.decor);
+      setChk(r,".stairs",data.stairs);
+      setChk(r,".acrylicCeiling",data.acrylicCeiling);
+      setVal(r,".acrylicBm",data.acrylicBm??0);
+
+      const p=data.prep||{};
+      setChk(r,".pFloor",p.floor);
+      setChk(r,".pSkirting",p.skirting);
+      setChk(r,".pDoorFrame",p.doorFrame); setVal(r,".pDoorFrameCount",p.doorFrameCount??1);
+      setChk(r,".pFullDoor",p.fullDoor); setVal(r,".pFullDoorCount",p.fullDoorCount??1);
+      setChk(r,".pWindow",p.window); setVal(r,".pWindowCount",p.windowCount??1);
+      setChk(r,".pSill",p.sill); setVal(r,".pSillCount",p.sillCount??1);
+
+      setChk(r,".pCeilLight",p.ceilLight);
+      setVal(r,".pCeilLightAction",p.ceilLightAction||"cover");
+      setVal(r,".pCeilLightCount",p.ceilLightCount??1);
+
+      setChk(r,".pWallLight",p.wallLight);
+      setVal(r,".pWallLightAction",p.wallLightAction||"cover");
+      setVal(r,".pWallLightCount",p.wallLightCount??1);
+
+      setChk(r,".pAc",p.ac); setVal(r,".pAcCount",p.acCount??1);
+      setChk(r,".pPicture",p.picture); setVal(r,".pPictureCount",p.pictureCount??1);
+      setChk(r,".pTv",p.tv); setVal(r,".pTvCount",p.tvCount??1);
+      setChk(r,".pRadiator",p.radiator); setVal(r,".pRadiatorCount",p.radiatorCount??1);
+      setChk(r,".pSocket",p.socket); setVal(r,".pSocketCount",p.socketCount??1);
+
+      setChk(r,".pKitchen",p.kitchen);
+      setChk(r,".pFurnitureCover",p.furnitureCover);
+      setChk(r,".pFurnitureMove",p.furnitureMove);
+      setChk(r,".pHoles",p.holes); setVal(r,".pHolesCount",p.holesCount??1);
+      setChk(r,".pFullCleaning",p.fullCleaning);
+      setChk(r,".pOther",p.other);
+      setVal(r,".pOtherText",p.otherText||"");
+      setVal(r,".pOtherPrice",p.otherPrice??0);
+
+      setVal(r,".roomNote",data.note||"");
+      setVal(r,".planHours",data.planHours||0);
+      setVal(r,".planDays",data.planDays||0);
+      setVal(r,".actualHours",data.actualHours||0);
+      setVal(r,".actualDays",data.actualDays||0);
+      setCardPhoto(r,data.photo||"");
+    });
+  }else{
+    roomDetails.forEach(data=>{
+      const r=addRoom(data.name||"Miestnosť",false);
+      setVal(r,".rtype",data.type||"Izba");
+      setVal(r,".rname",data.name||"Miestnosť");
+      updateTitle(r);
+
+      r.dataset.mode="direct";
+      r.querySelectorAll(".mode button").forEach(x=>x.classList.toggle("active",x.dataset.mode==="direct"));
+      r.querySelector(".dimFields")?.classList.add("hidden");
+      r.querySelector(".directFields")?.classList.remove("hidden");
+      setVal(r,".directArea",data.walls||0);
+
+      setChk(r,".paintWalls",(data.walls||0)>0);
+      setVal(r,".wallColor",data.wallColor||"white");
+      setVal(r,".wallCoats",String(data.wallCoats||2));
+      setChk(r,".mixedWalls",data.mixedWalls);
+      setVal(r,".colorWallArea",data.colorWallArea||0);
+      r.querySelector(".mixedWallFields")?.classList.toggle("hidden",!data.mixedWalls);
+
+      setChk(r,".ceiling",(data.ceiling||0)>0);
+      setVal(r,".ceilingColor",data.ceilingColor||"white");
+      setVal(r,".ceilingCoats",String(data.ceilingCoats||1));
+
+      if((data.ceiling||0)>0){
+        const d=document.createElement("div");
+        d.innerHTML=`<label>Uložená plocha stropu m²</label><input class="savedCeilingArea" type="number" step=".01" value="${data.ceiling||0}">`;
+        r.querySelector(".roomPanelRight")?.appendChild(d);
+        d.querySelector("input")?.addEventListener("input",calc);
+      }
+
+      setChk(r,".penetrationWall",data.penetrationWall);
+      setChk(r,".penetrationCeiling",data.penetrationCeiling);
+      setChk(r,".acrylicCeiling",(data.acrylicBm||0)>0);
+      setVal(r,".acrylicBm",data.acrylicBm||0);
+      setVal(r,".roomNote",data.note||"");
+      setCardPhoto(r,data.photo||"");
+    });
+  }
+
+  const specialInputs=Array.isArray(job.specialInputs)?job.specialInputs:[];
+  const specialDetails=Array.isArray(job.specialDetails)?job.specialDetails:[];
+
+  if(specialInputs.length){
+    specialInputs.forEach(data=>{
+      const r=addSpecial(data.name||"Krb / špeciálna plocha",false);
+      setVal(r,".stype",data.type||"Krb");
+      setVal(r,".sname",data.name||"Krb / špeciálna plocha");
+      updateTitle(r);
+
+      setVal(r,".sAreaMode",data.areaMode||"manual");
+      setVal(r,".sScope",data.scope||"whole");
+      setVal(r,".sWidth",data.width??0);
+      setVal(r,".sHeight",data.height??0);
+      setVal(r,".sDepth",data.depth??0);
+      setVal(r,".sarea",data.area??0);
+
+      const manual=(r.querySelector(".sAreaMode")?.value||"manual")==="manual";
+      r.querySelector(".specialDimensions")?.classList.toggle("hidden",manual);
+      r.querySelector(".specialManual")?.classList.toggle("hidden",!manual);
+
+      setChk(r,".sRepair",data.repair);
+      setChk(r,".sSanding",data.sanding);
+      setChk(r,".sPenetration",data.penetration);
+      setChk(r,".sMeshGlue",data.meshGlue);
+      setChk(r,".sSkimcoat",data.skimcoat);
+      setChk(r,".sPutty",data.putty);
+      setChk(r,".sPaint",data.paint);
+      setChk(r,".sDecor",data.decor);
+      setVal(r,".sCoats",String(data.coats||1));
+
+      setVal(r,".roomNote",data.note||"");
+      setVal(r,".planHours",data.planHours||0);
+      setVal(r,".planDays",data.planDays||0);
+      setVal(r,".actualHours",data.actualHours||0);
+      setVal(r,".actualDays",data.actualDays||0);
+      setCardPhoto(r,data.photo||"");
+    });
+  }else{
+    specialDetails.forEach(data=>{
+      const r=addSpecial(data.name||"Krb / špeciálna plocha",false);
+      setVal(r,".stype",data.type||"Krb");
+      setVal(r,".sname",data.name||"Krb / špeciálna plocha");
+      updateTitle(r);
+      setVal(r,".sarea",data.area||0);
+
+      const labels=(data.works||[]).map(x=>x.label||"").join("|");
+      setChk(r,".sRepair",/Oprava/.test(labels));
+      setChk(r,".sSanding",/Brúsenie/.test(labels));
+      setChk(r,".sPenetration",/Penetrácia/.test(labels));
+      setChk(r,".sMeshGlue",/Klebrovanie/.test(labels));
+      setChk(r,".sSkimcoat",/Stierkovanie/.test(labels));
+      setChk(r,".sPutty",/Tmelenie/.test(labels));
+      setChk(r,".sPaint",/Maľovanie/.test(labels));
+      setChk(r,".sDecor",/Dekor/.test(labels));
+      const mm=labels.match(/Maľovanie (\d+)×/);
+      if(mm)setVal(r,".sCoats",mm[1]);
+      setVal(r,".roomNote",data.note||"");
+      setCardPhoto(r,data.photo||"");
+    });
+  }
+
+  byId("jobDetailModal").classList.add("hidden");
+  showView("calc");
   calc();
+  window.scrollTo({top:0,behavior:"smooth"});
 };
 
 function aggregateInvoiceItems(job){
@@ -2047,4 +2323,6 @@ if ('serviceWorker' in navigator) {
 </script>
 
 </body>
+
+<!-- CHECKPOINT: JA_PAINTING_V3_4_2_FULL_RESTORE_2026_08_27 -->
 </html>
